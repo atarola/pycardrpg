@@ -1,0 +1,5 @@
+# Files for git to ignore
+*.pyc
+*.pyo
+.project
+.pydevproject
