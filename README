@@ -1,0 +1,5 @@
+h2. Card Based Character System
+
+All units in the game, characters and enemies both, have a set of slots that _Equipment Cards_ can be added too.  These cards, along with the unit's base attributes and class information, set the basic statistics for the unit, while giving the pool of _Action Cards_ for use in the _Action Deck_.  
+
+Each unit will have an _Action Deck_.  An _Action Deck_ is exactly 40 _Action Cards_ in size.  The maximum number of a single _Action Card_ that can be in a deck is 4, except for "Attack" _Action Card_ which can be used in an unlimited fashion.  

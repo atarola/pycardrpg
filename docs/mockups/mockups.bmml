@@ -7,9 +7,56 @@
         <verticalScrollbar>false</verticalScrollbar>
       </controlProperties>
     </control>
-    <control controlID="58" controlTypeID="__group__" x="48" y="498" w="324" h="101" measuredW="324" measuredH="101" zOrder="2" locked="false" isInGroup="-1">
+    <control controlID="59" controlTypeID="com.balsamiq.mockups::RoundButton" x="400" y="300" w="65" h="65" measuredW="32" measuredH="32" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <shape>rectangle</shape>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="117" controlTypeID="com.balsamiq.mockups::RoundButton" x="437" y="364" w="65" h="65" measuredW="32" measuredH="32" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <shape>rectangle</shape>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="118" controlTypeID="com.balsamiq.mockups::RoundButton" x="372" y="365" w="65" h="65" measuredW="32" measuredH="32" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <shape>rectangle</shape>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="119" controlTypeID="com.balsamiq.mockups::RoundButton" x="335" y="300" w="65" h="65" measuredW="32" measuredH="32" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <shape>rectangle</shape>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="120" controlTypeID="com.balsamiq.mockups::RoundButton" x="465" y="300" w="65" h="65" measuredW="32" measuredH="32" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <shape>rectangle</shape>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="121" controlTypeID="com.balsamiq.mockups::RoundButton" x="372" y="235" w="65" h="65" measuredW="32" measuredH="32" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <shape>rectangle</shape>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="122" controlTypeID="com.balsamiq.mockups::RoundButton" x="437" y="234" w="65" h="65" measuredW="32" measuredH="32" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <shape>rectangle</shape>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="124" controlTypeID="com.balsamiq.mockups::Icon" x="417" y="317" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>EmoticonIcon%7Cmedium</icon>
+      </controlProperties>
+    </control>
+    <control controlID="134" controlTypeID="__group__" x="48" y="498" w="324" h="101" measuredW="324" measuredH="101" zOrder="9" locked="false" isInGroup="-1">
       <groupChildrenDescriptors>
-        <control controlID="0" controlTypeID="__group__" x="13" y="0" w="298" h="98" measuredW="298" measuredH="98" zOrder="0" locked="false" isInGroup="58">
+        <control controlID="0" controlTypeID="__group__" x="13" y="0" w="298" h="98" measuredW="298" measuredH="98" zOrder="0" locked="false" isInGroup="134">
           <groupChildrenDescriptors>
             <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="85" h="98" measuredW="32" measuredH="32" zOrder="0" locked="false" isInGroup="0">
               <controlProperties>
@@ -43,7 +90,7 @@
             </control>
           </groupChildrenDescriptors>
         </control>
-        <control controlID="1" controlTypeID="__group__" x="0" y="34" w="324" h="67" measuredW="324" measuredH="67" zOrder="1" locked="false" isInGroup="58">
+        <control controlID="1" controlTypeID="__group__" x="0" y="34" w="324" h="67" measuredW="324" measuredH="67" zOrder="1" locked="false" isInGroup="134">
           <groupChildrenDescriptors>
             <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="324" h="67" measuredW="32" measuredH="32" zOrder="0" locked="false" isInGroup="1">
               <controlProperties>
@@ -51,9 +98,9 @@
                 <text/>
               </controlProperties>
             </control>
-            <control controlID="1" controlTypeID="__group__" x="22" y="8" w="280" h="50" measuredW="280" measuredH="50" zOrder="1" locked="false" isInGroup="1">
+            <control controlID="1" controlTypeID="__group__" x="22" y="8" w="279" h="50" measuredW="279" measuredH="50" zOrder="1" locked="false" isInGroup="1">
               <groupChildrenDescriptors>
-                <control controlID="0" controlTypeID="__group__" x="64" y="0" w="216" h="50" measuredW="216" measuredH="50" zOrder="0" locked="false" isInGroup="1">
+                <control controlID="0" controlTypeID="__group__" x="0" y="0" w="216" h="50" measuredW="216" measuredH="50" zOrder="0" locked="false" isInGroup="1">
                   <groupChildrenDescriptors>
                     <control controlID="0" controlTypeID="com.balsamiq.mockups::ProgressBar" x="29" y="2" w="187" h="19" measuredW="100" measuredH="20" zOrder="0" locked="false" isInGroup="0">
                       <controlProperties>
@@ -77,9 +124,9 @@
                     </control>
                   </groupChildrenDescriptors>
                 </control>
-                <control controlID="1" controlTypeID="com.balsamiq.mockups::Icon" x="0" y="2" w="-1" h="-1" measuredW="48" measuredH="48" zOrder="1" locked="false" isInGroup="1">
+                <control controlID="1" controlTypeID="com.balsamiq.mockups::Icon" x="231" y="1" w="-1" h="-1" measuredW="48" measuredH="48" zOrder="1" locked="false" isInGroup="1">
                   <controlProperties>
-                    <icon>BookIcon%7Clarge</icon>
+                    <icon>ClockIcon%7Clarge</icon>
                   </controlProperties>
                 </control>
               </groupChildrenDescriptors>
@@ -87,53 +134,6 @@
           </groupChildrenDescriptors>
         </control>
       </groupChildrenDescriptors>
-    </control>
-    <control controlID="59" controlTypeID="com.balsamiq.mockups::RoundButton" x="400" y="300" w="65" h="65" measuredW="32" measuredH="32" zOrder="1" locked="false" isInGroup="-1">
-      <controlProperties>
-        <shape>rectangle</shape>
-        <text/>
-      </controlProperties>
-    </control>
-    <control controlID="117" controlTypeID="com.balsamiq.mockups::RoundButton" x="437" y="364" w="65" h="65" measuredW="32" measuredH="32" zOrder="3" locked="false" isInGroup="-1">
-      <controlProperties>
-        <shape>rectangle</shape>
-        <text/>
-      </controlProperties>
-    </control>
-    <control controlID="118" controlTypeID="com.balsamiq.mockups::RoundButton" x="372" y="365" w="65" h="65" measuredW="32" measuredH="32" zOrder="4" locked="false" isInGroup="-1">
-      <controlProperties>
-        <shape>rectangle</shape>
-        <text/>
-      </controlProperties>
-    </control>
-    <control controlID="119" controlTypeID="com.balsamiq.mockups::RoundButton" x="335" y="300" w="65" h="65" measuredW="32" measuredH="32" zOrder="5" locked="false" isInGroup="-1">
-      <controlProperties>
-        <shape>rectangle</shape>
-        <text/>
-      </controlProperties>
-    </control>
-    <control controlID="120" controlTypeID="com.balsamiq.mockups::RoundButton" x="465" y="300" w="65" h="65" measuredW="32" measuredH="32" zOrder="6" locked="false" isInGroup="-1">
-      <controlProperties>
-        <shape>rectangle</shape>
-        <text/>
-      </controlProperties>
-    </control>
-    <control controlID="121" controlTypeID="com.balsamiq.mockups::RoundButton" x="372" y="235" w="65" h="65" measuredW="32" measuredH="32" zOrder="7" locked="false" isInGroup="-1">
-      <controlProperties>
-        <shape>rectangle</shape>
-        <text/>
-      </controlProperties>
-    </control>
-    <control controlID="122" controlTypeID="com.balsamiq.mockups::RoundButton" x="437" y="234" w="65" h="65" measuredW="32" measuredH="32" zOrder="8" locked="false" isInGroup="-1">
-      <controlProperties>
-        <shape>rectangle</shape>
-        <text/>
-      </controlProperties>
-    </control>
-    <control controlID="124" controlTypeID="com.balsamiq.mockups::Icon" x="417" y="317" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="9" locked="false" isInGroup="-1">
-      <controlProperties>
-        <icon>EmoticonIcon%7Cmedium</icon>
-      </controlProperties>
     </control>
   </controls>
 </mockup>
