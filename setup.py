@@ -22,7 +22,8 @@ setup(
     
     # packages needed
     install_requires = [
-        'pygame>=1.9.1'
+        'pygame>=1.9.1',
+        'pyyaml>=3.09'
     ],
     
     # entry_points

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-from engine.application import Application
-from engine.scene_system import Scene
+from pycardrpg.engine.application import Application
+from pycardrpg.engine.scene_system import Scene
 
 #
 # PyCardRPG specific Application Class

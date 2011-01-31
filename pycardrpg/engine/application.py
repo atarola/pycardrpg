@@ -3,7 +3,7 @@
 import pygame
 from pygame.locals import *
 
-from engine.scene_system import SceneSystem
+from pycardrpg.engine.scene_system import SceneSystem
 
 #
 # Main application object

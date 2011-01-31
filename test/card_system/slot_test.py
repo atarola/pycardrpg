@@ -3,8 +3,8 @@
 import unittest
 from unittest import TestCase
 
-from card_system.card import Card
-from card_system.slot import Slot, DoesNotFitException
+from pycardrpg.card_system.card import Card
+from pycardrpg.card_system.slot import Slot, DoesNotFitException
 
 #
 # 

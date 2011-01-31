@@ -20,7 +20,6 @@ class Deck(object):
     def discard(self, card):
         self.hand.remove(card)
         self.pile.append(card)
-        self.fill_hand()
 
     def shuffle(self):
         random.shuffle(self.cards)
@@ -37,5 +36,4 @@ class Deck(object):
                 self.reset_deck() 
             
             # add the next card to the hand
-            card = self.cards.pop()
-            self.hand.append(card)
+            self.hand.append(self.cards.pop())
