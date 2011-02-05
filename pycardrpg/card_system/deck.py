@@ -8,15 +8,19 @@ import random
 
 class Deck(object):
     
-    def __init__(self, cards=[], hand_size=5):
+    def __init__(self, cards=[], size=40, hand_size=5):
+        self.size = size
         self.hand_size = hand_size
         self.cards = list(cards)
         self.pile = []
         self.hand = []
         
-        self.shuffle()
-        self.fill_hand()
+        self.validate_deck()
 
+    # TODO: setup the validation of the deck
+    def validate_deck(self):
+        return True
+    
     def discard(self, card):
         self.hand.remove(card)
         self.pile.append(card)

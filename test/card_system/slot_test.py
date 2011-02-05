@@ -18,18 +18,18 @@ class SlotTest(TestCase):
         self.foobar_card = Card('foobar', ['foo', 'bar'])
     
     def testSlotWithNoRequirements(self):
-        slot = Slot('a')
+        slot = Slot()
         slot.add_card(self.foo_card)
         slot.add_card(self.bar_card)
     
     def testSlotWithOneReqirement(self):
-        slot = Slot('a', ['foo'])
+        slot = Slot(['foo'])
         slot.add_card(self.foo_card)
         slot.add_card(self.foobar_card)
         self.assertRaises(DoesNotFitException, slot.add_card, self.bar_card)
         
     def testSlotWithTwoRequirements(self):
-        slot = Slot('a', ['foo', 'bar'])
+        slot = Slot(['foo', 'bar'])
         slot.add_card(self.foobar_card)
         self.assertRaises(DoesNotFitException, slot.add_card, self.foo_card)
         self.assertRaises(DoesNotFitException, slot.add_card, self.bar_card)
