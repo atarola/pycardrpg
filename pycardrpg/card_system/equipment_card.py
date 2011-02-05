@@ -9,6 +9,6 @@ from pycardrpg.card_system.card import Card
 class EquipmentCard(Card):
     
     def __init__(self, name, tags=[], modifiers={}):
-        tags = tags.append("Equipment")
+        tags.append("Equipment")
         Card.__init__(self, name, tags)
         self.modifiers = modifiers

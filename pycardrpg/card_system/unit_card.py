@@ -11,7 +11,7 @@ from pycardrpg.card_system.slot_holder import SlotHolder
 class UnitCard(Card):
     
     def __init__(self, name, tags=[]):
-        tags = tags.append("Unit")
+        tags.append("Unit")
         Card.__init__(self, name, tags)
         
         # Unit Attributes
@@ -20,15 +20,15 @@ class UnitCard(Card):
         self.base_dexterity = 1
         self.base_stamina = 1
 
-        # current hit points and action points
-        self.cur_hp = self.max_hp
-        self.cur_ap = self.max_ap
-        
         # current experience points
         self.exp = 0
         
         # equipment
         self.equipment = SlotHolder(["Equipment"])
+        
+        # current hit points and action points
+        self.cur_hp = self.max_hp
+        self.cur_ap = self.max_ap
     
     def add_equipment_slot(self, tags=[]):
         self.equipment.add_slot(tags)

@@ -13,11 +13,11 @@ class SlotHolder(object):
         self.slots = []
         
     def add_slot(self, tags=[]):
-        tags = tags.extend(self.base_tags)
+        tags.extend(self.base_tags)
         self.slots.append(Slot(tags))
         
     def get_cards(self):
-        return [slot.card for slot in self.slots if slot.car is not None]
+        return [slot.card for slot in self.slots if slot.card is not None]
     
     def add_card(self, card):
         for slot in self.slots:
