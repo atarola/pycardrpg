@@ -14,12 +14,6 @@ class Deck(object):
         self.cards = list(cards)
         self.pile = []
         self.hand = []
-        
-        self.validate_deck()
-
-    # TODO: setup the validation of the deck
-    def validate_deck(self):
-        return True
     
     def discard(self, card):
         self.hand.remove(card)

@@ -6,9 +6,6 @@
 
 class Card(object):
     
-    def __init__(self, name, tags=[], modifiers={}):
+    def __init__(self, name, tags=[]):
         self.name = name
         self.tags = set(tags)
-        self.modifiers = modifiers
-
-        

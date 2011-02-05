@@ -1,17 +1,19 @@
 #!/usr/bin/env python
 
-from pycardrpg.card_system.slot import SlotHolder
+from pycardrpg.card_system.card import Card
+from pycardrpg.card_system.slot_holder import SlotHolder
 
 #
-# Unit Class, base class for all units in the game.
+# UnitCard class, base class for all units in the game.
 # TODO: Skills, Action Deck, Action Cards, Equipment Requirements
 #
 
-class Unit(object):
+class UnitCard(Card):
     
-    def __init__(self, name):
-        self.name = name
-
+    def __init__(self, name, tags=[]):
+        tags = tags.append("Unit")
+        Card.__init__(self, name, tags)
+        
         # Unit Attributes
         self.base_strength = 1
         self.base_intelligence = 1

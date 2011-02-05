@@ -21,37 +21,6 @@ class Slot(object):
         self.card = card
 
 #
-# Slot Holder
-#
-
-class SlotHolder(object):
-    
-    def __init__(self, base_tags=[]):
-        self.base_tags = base_tags
-        self.slots = []
-        
-    def add_slot(self, tags=[]):
-        tags = tags.extend(self.base_tags)
-        self.slots.append(Slot(tags))
-        
-    def get_cards(self):
-        return [slot.card for slot in self.slots if slot.car is not None]
-    
-    def add_card(self, card):
-        for slot in self.slots:
-            if slot.card_fit(card):
-                slot.add_card(card)
-                return
-        
-        raise DoesNotFitException("There are no valid spaces for the card.")
-    
-    def remove_card(self, card):
-        for slot in self.slots:
-            if slot.card == card:
-                slot.card = None
-                return
-
-#
 # Exception stating that a card doesn't fit in the slot
 #
 
