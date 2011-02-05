@@ -49,6 +49,7 @@ class EntitySystem(object):
 
     # add a component to an entity
     def add_component(self, entity, component):
+        component.entity_system = self
         component_name = component.__class__.__name__
         
         # if the component has no records, create them
@@ -66,6 +67,9 @@ class EntitySystem(object):
                 components.append(value[entity])
         
         return components
+    
+    def get_component(self, entity, component_name):
+        return self.components.get(component_name, {}).get(entity, None)
 
 #
 # Entity class. A single entity.
@@ -80,3 +84,6 @@ class Entity(object):
     # add a component to this entity
     def add_component(self, component):
         self.entity_system.add_component(self, component)
+        
+    def get_component(self, component_name):
+        return self.entity_system.get_component(self, component_name)
