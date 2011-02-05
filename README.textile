@@ -39,3 +39,5 @@ Each Action Card cost a specific number of Action Points (AP) to play. Action Po
 A unit has 5 Action Cards in its' hand, of which they can play one each turn. Once that card is played, it is added to the Discard Pile.  If, at the end of a turn, the unit's hand is less than 5, another card is added to the hand from the unused Action Deck.  
 
 When the Action Deck is empty, the cards in the Discard Pile are shuffled and put into the Action Deck.
+
+
