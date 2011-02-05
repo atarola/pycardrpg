@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from pycardrpg.entity.slot import Slot, DoesNotFitException
+from pycardrpg.entity.card.slot import Slot, DoesNotFitException
 
 #
 # Slot Holder

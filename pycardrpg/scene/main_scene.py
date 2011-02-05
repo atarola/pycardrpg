@@ -1,15 +1,15 @@
 #!/usr/bin/evn python
 
 from pycardrpg.scene.scene import Scene
-from pycardrpg.scene.render_system import RenderSystem
+from pycardrpg.scene.render.render_system import RenderSystem
 from pycardrpg.scene.controller import Controller
 from pycardrpg.scene.ai_system import AISystem
 from pycardrpg.entity.entity_system import EntitySystem
-from pycardrpg.entity.map import Map
-from pycardrpg.entity.unit_card import UnitCard
+from pycardrpg.entity.map.map import Map
+from pycardrpg.entity.card.unit_card import UnitCard
 from pycardrpg.entity.player_component import PlayerComponent
 from pycardrpg.entity.render_component import RenderComponent
-from pycardrpg.entity.tiles import TileTypes
+from pycardrpg.entity.map.tiles import TileTypes
 
 #
 # The main scene of the game.

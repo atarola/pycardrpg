@@ -3,8 +3,8 @@
 import os
 import pygame
 
-from pycardrpg.scene.colors import Colors
-from pycardrpg.scene.camera import Camera
+from pycardrpg.scene.render.colors import Colors
+from pycardrpg.scene.render.camera import Camera
 
 #
 # Render System.
@@ -47,6 +47,7 @@ class RenderSystem(object):
         for entity in entities:
             self.render_entity(surface, rendered_pos, visible_pos, entity)
         
+        # Figure out a better way!
 #        # Render visible tiles
 #        for tile in self.map.get_tiles(visible_pos):      
 #            self.render_tile(surface, rendered_pos, tile, Colors.LIGHTGREY)
