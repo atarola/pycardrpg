@@ -15,7 +15,7 @@ class RenderSystem(object):
     def __init__(self, width, height, entity_system, map):
         # will be structured as [symbol][color] = image
         self.image_cache = {}
-        self.font = pygame.font.Font(os.path.join('data','lucon.ttf'), 12)
+        self.font = pygame.font.Font(os.path.join('pycardrpg', 'data', 'lucon.ttf'), 12)
         
         self.entity_system = entity_system
         self.map = map
@@ -28,11 +28,13 @@ class RenderSystem(object):
         # keeps track of rendered positions, each spot should only render once.
         rendered_pos = []
         
-        player = self.entity_system.find_one("PlayerComponent", "RenderComponent", "UnitComponent")
-        visible_pos = self.map.get_fov(player.pos, player.fov_radius)
+        player = self.entity_system.find_one("PlayerComponent", "RenderComponent", "UnitCard")
+        pos = player.get("RenderComponent", "pos")
+        fov_radius = player.get("UnitCard", "fov_radius")
+        visible_pos = self.map.get_fov(pos, fov_radius)
         
         # move the camera to the player, then render the player
-        self.camera.move(player.pos)
+        self.camera.move(pos)
         self.render_entity(surface, rendered_pos, visible_pos, player)
 
         # Render units
@@ -45,31 +47,35 @@ class RenderSystem(object):
         for entity in entities:
             self.render_entity(surface, rendered_pos, visible_pos, entity)
         
-        # Render visible tiles
-        for tile in self.map.get_tiles(visible_pos):      
-            self.render_tile(surface, rendered_pos, tile, Colors.LIGHTGREY)
-        
-        # Render seen tiles
-        tiles = self.map.get_seen()
-        for tile in tiles:
-            if not self.camera.in_view(tile.pos):
-                continue
-            
-            self.render_tile(surface, rendered_pos, tile, Colors.DARKGREY)
+#        # Render visible tiles
+#        for tile in self.map.get_tiles(visible_pos):      
+#            self.render_tile(surface, rendered_pos, tile, Colors.LIGHTGREY)
+#        
+#        # Render seen tiles
+#        tiles = self.map.get_seen()
+#        for tile in tiles:
+#            if not self.camera.in_view(tile.pos):
+#                continue
+#            
+#            self.render_tile(surface, rendered_pos, tile, Colors.DARKGREY)
     
     # render an entity
     def render_entity(self, surface, rendered_pos, visible_pos, entity):
-        if entity.pos in rendered_pos:
+        pos = entity.get("RenderComponent", "pos")
+        symbol = entity.get("RenderComponent", "symbol")
+        color = entity.get("RenderComponent", "color")
+        
+        if pos in rendered_pos:
             return
         
-        if entity.pos not in visible_pos:
+        if pos not in visible_pos:
             return
         
-        if not self.camera.in_view(entity.pos):
+        if not self.camera.in_view(pos):
             return
         
-        rendered_pos.append(entity.pos)
-        self.render_item(surface, entity.pos, entity.symbol, entity.color) 
+        rendered_pos.append(pos)
+        self.render_item(surface, pos, symbol, color) 
     
     # render a tile
     def render_tile(self, surface, rendered_pos, tile, color):

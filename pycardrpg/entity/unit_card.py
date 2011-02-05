@@ -19,6 +19,7 @@ class UnitCard(Card):
         self.base_intelligence = 1
         self.base_dexterity = 1
         self.base_stamina = 1
+        self.fov_radius = 6
 
         # current experience points
         self.exp = 0

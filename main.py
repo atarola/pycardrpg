@@ -9,8 +9,9 @@ from pycardrpg.scene.main_scene import MainScene
 
 class PyCardRPG(Application):
     
-    def __init__(self):
+    def __init__(self):        
         Application.__init__(self, "PyGameRPG v0.1", 800, 600, 30)
+        
         self.add_scene("MainScene", MainScene())
         self.switch_scene("MainScene")
     
