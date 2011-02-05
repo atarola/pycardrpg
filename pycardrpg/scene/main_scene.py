@@ -1,6 +1,6 @@
 #!/usr/bin/evn python
 
-from pycardrpg.scene_system.scene import Scene
+from pycardrpg.scene.scene import Scene
 
 #
 # The main scene of the game.

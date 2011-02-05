@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import pygame
-from pygame.locals import *
+from pygame.locals import * 
 
 APPMOUSEFOCUS = 1
 APPINPUTFOCUS = 2

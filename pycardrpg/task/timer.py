@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from pycardrpg.task_system.task import Task
+from pycardrpg.task.task import Task
 
 #
 # A task that fires off every interval scheduler calls

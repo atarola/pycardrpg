@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from pycardrpg.scene_system.scene import Scene
+from pycardrpg.scene.scene import Scene
 
 #
 # Uses the strategy pattern to encapsulate different 

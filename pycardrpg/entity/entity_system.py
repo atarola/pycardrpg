@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from pycardrpg.entity.entity import Entity
+
 #
 # EntitySystem class.  Create and manage entities and components
 #

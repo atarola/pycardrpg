@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-from pycardrpg.map_system.fov_util import FovUtil
-from pycardrpg.map_system.tiles import TileInstance
+from pycardrpg.map.fov_util import FovUtil
+from pycardrpg.map.tiles import TileInstance
 
 #
 # Map Manager
