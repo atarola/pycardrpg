@@ -11,3 +11,4 @@ class Card(object):
         self.tags = set(tags)
         self.modifiers = modifiers
 
+        

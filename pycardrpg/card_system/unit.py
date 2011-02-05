@@ -3,7 +3,8 @@
 from pycardrpg.card_system.slot import SlotHolder
 
 #
-# Unit Class
+# Unit Class, base class for all units in the game.
+# TODO: Skills, Action Deck, Action Cards, Equipment Requirements
 #
 
 class Unit(object):
@@ -17,9 +18,9 @@ class Unit(object):
         self.base_dexterity = 1
         self.base_stamina = 1
 
-        # current hitpoints and actionpoints
-        self.cur_hp = 1
-        self.cur_ap = 1
+        # current hit points and action points
+        self.cur_hp = self.max_hp
+        self.cur_ap = self.max_ap
         
         # current experience points
         self.exp = 0
@@ -65,9 +66,13 @@ class Unit(object):
 
     @property
     def max_hp(self):
-        return int(round(self.strength  / 2) + self.stamina)
+        return self.strength + self.stamina * 2
+    
+    @property
+    def ap_recharge(self):
+        return self.dexterity + self.stamina
     
     @property
     def max_ap(self):
-        return int(round(self.dexterity / 2) + self.stamina)
+        return self.ap_recharge * 10
 
