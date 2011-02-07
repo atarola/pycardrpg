@@ -14,7 +14,9 @@ class RenderSystem(object):
 
     def __init__(self, width, height, entity_system, map):
         self.map_sprites = SpriteSheet("map.png", rows=16, columns=16, starty=40)
-        self.unit_sprites = SpriteSheet("char.png", rows=41, columns=15, startx=7, starty=120, width=26, height=26, skipx=9, skipy=8)
+        self.unit_sprites = SpriteSheet("char.png", rows=41, columns=15, startx=7, 
+                                        starty=120, width=26, height=26, skipx=9, 
+                                        skipy=8)
         
         self.fow_sprite = pygame.Surface((16, 16)).convert()
         self.fow_sprite.fill(Colors.BLACK)
