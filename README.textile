@@ -1,18 +1,22 @@
+h1. PyCardRPG
+
+PyCardRPG is a Card-Based, Procedurally Generated RPG.  
+
 h2. Card Based Character System
 
 h3. Attributes
 
 The basic abilities a unit has.  There are four types of Attribute:
 
-  * Strength: Power a unit has.  This directly relates to damage done by attacks.
-  * Intelligence: Smarts a unit has.  This limits the number of skills a unit has.
-  * Dexterity: A unit's nimbleness.  Directly relates to the armor value of the unit.
-  * Stamina: How well a unit handles fatigue and damage.
+* Strength: Power a unit has.  This directly relates to damage done by attacks.
+* Intelligence: Smarts a unit has.  This limits the number of skills a unit has.
+* Dexterity: A unit's nimbleness.  Directly relates to the armor value of the unit.
+* Stamina: How well a unit handles fatigue and damage.
 
 From the base attributes, some others are derived:
 
-  * Hit Points (HP): The amount of damage a unit can withstand before death.
-  * Action Points (AP): Points spent in the executing of actions.  
+* Hit Points (HP): The amount of damage a unit can withstand before death.
+* Action Points (AP): Points spent in the executing of actions.  
 
 h3. Experience Points
 
@@ -40,7 +44,12 @@ A unit has 5 Action Cards in its' hand, of which they can play one each turn. On
 
 When the Action Deck is empty, the cards in the Discard Pile are shuffled and put into the Action Deck.
 
-h2. Thanks
+h2. Special Thanks
 
-Special thanks goes out to Squidi.net for putting up a bunch of "game ideas":http://www.squidi.net/three for the low cost of giving credit where due, and for "The Free Pixel Project":http://www.squidi.net/pixel. "The Free Pixel Project":http://www.squidi.net/pixel created the awesome pixel art we us. Their art is licensed under a "Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License":http://creativecommons.org/licenses/by-nc-sa/3.0/ and has been ever so slighty modified by us (mostly alpha stuff).
+Special thanks goes out to Squidi.net for putting up a bunch of "game ideas":http://www.squidi.net/three, and for "The Free Pixel Project":http://www.squidi.net/pixel. 
 
+h2. License
+
+"The Free Pixel Project":http://www.squidi.net/pixel created most of the awesome pixel art we use. Their art is licensed under a "Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License":http://creativecommons.org/licenses/by-nc-sa/3.0/  
+
+Everything else is (c) The PyCardRPG project, and licensed under the MIT License.
