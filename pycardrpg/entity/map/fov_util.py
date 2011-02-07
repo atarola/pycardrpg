@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 #
-# Get the tiles within a radius that the unit can see
+# Get the tiles within a radius that the unit can see.
+# From: http://roguebasin.roguelikedevelopment.org/index.php?title=PythonShadowcastingImplementation
 #
 
 class FovUtil(object):
