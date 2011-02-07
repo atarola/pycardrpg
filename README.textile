@@ -42,5 +42,5 @@ When the Action Deck is empty, the cards in the Discard Pile are shuffled and pu
 
 h2. Thanks
 
-Special thanks goes out to Squidi.net for putting up a bunch of game ideas pretty much for free (http://www.squidi.net/three), and for The Free Pixel Project (http://www.squidi.net/pixel). The Free Pixel Project created the awesome pixel art we us. Their art is licensed under a Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License (http://creativecommons.org/licenses/by-nc-sa/3.0/) and has been ever so slighty modified by us (mostly alpha stuff).
+Special thanks goes out to Squidi.net for putting up a bunch of "game ideas":http://www.squidi.net/three for the low cost of giving credit where due, and for "The Free Pixel Project":http://www.squidi.net/pixel. "The Free Pixel Project":http://www.squidi.net/pixel created the awesome pixel art we us. Their art is licensed under a "Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License":http://creativecommons.org/licenses/by-nc-sa/3.0/ and has been ever so slighty modified by us (mostly alpha stuff).
 
