@@ -36,13 +36,13 @@ class Controller(EventSystem):
     
     def move_player(self, dx, dy):
         entity = self.entity_system.find_one("PlayerComponent", "RenderComponent", "UnitCard")
-        entity_pos = entity.get("RenderComponent", "pos")
-        pos = (entity_pos[0] + dx, entity_pos[1] + dy)
+        x, y = entity.get("RenderComponent", "pos")
+        pos = (x + dx, y + dy)
         
-        if self.map.is_passible(pos):
+        if self.map[pos].passible:
             entity.set("RenderComponent", "pos", pos)
             fov_radius = entity.get("UnitCard", "fov_radius")
-            self.map.get_fov_seen(pos, fov_radius)
+            self.map.get_fov_tiles(pos, fov_radius).seen = True
             self.scene.player_turn = False
             
 

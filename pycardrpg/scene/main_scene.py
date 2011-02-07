@@ -4,12 +4,12 @@ from pycardrpg.scene.scene import Scene
 from pycardrpg.scene.render.render_system import RenderSystem
 from pycardrpg.scene.controller import Controller
 from pycardrpg.scene.ai_system import AISystem
+from pycardrpg.entity.map.map_generator import MapGenerator
+
 from pycardrpg.entity.entity_system import EntitySystem
-from pycardrpg.entity.map.map import Map
 from pycardrpg.entity.card.unit_card import UnitCard
 from pycardrpg.entity.player_component import PlayerComponent
 from pycardrpg.entity.render_component import RenderComponent
-from pycardrpg.entity.map.tiles import TileTypes
 
 #
 # The main scene of the game.
@@ -22,9 +22,7 @@ class MainScene(Scene):
         self.player_turn = True
         
         # setup our map
-        self.map = Map()
-        self.map.fill((0, 0), 10, 10, TileTypes.WALL)
-        self.map.fill((1, 1), 8, 8, TileTypes.FLOOR)
+        self.map = MapGenerator().generate()
         
         # setup the entities
         self.entity_system = EntitySystem()       
@@ -32,11 +30,12 @@ class MainScene(Scene):
         unit.add_component(PlayerComponent())
         unit.add_component(UnitCard("player"))
         unit.add_component(RenderComponent())    
-        unit.set("RenderComponent", "pos", (3, 3))
+        unit.set("RenderComponent", "pos", (2, 2))
+        unit.set("RenderComponent", "sprite_index", 1)
         
         pos = unit.get("RenderComponent", "pos")
         fov_radius = unit.get("UnitCard", 'fov_radius')   
-        self.map.get_fov_seen(pos, fov_radius)
+        self.map.get_fov_tiles(pos, fov_radius).seen = True
         
         # wire up our support systems
         self.render_system = RenderSystem(800, 600, self.entity_system, self.map)

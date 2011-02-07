@@ -27,7 +27,7 @@ class FovUtil(object):
                              FovUtil.mult[0][oct], FovUtil.mult[1][oct],
                              FovUtil.mult[2][oct], FovUtil.mult[3][oct], 0)
 
-        return self.lit_positions
+        return set(self.lit_positions)
 
     def _cast_light(self, cx, cy, row, start, end, radius, xx, xy, yx, yy, id):
         if start < end:
@@ -78,7 +78,7 @@ class FovUtil(object):
                 break
 
     def _is_blocked(self, pos):
-        return self.map.is_opaque(pos)
+        return self.map[pos].opaque
 
     def _set_lit(self, pos):
         self.lit_positions.append(pos)

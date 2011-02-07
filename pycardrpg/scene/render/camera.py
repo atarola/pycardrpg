@@ -8,12 +8,12 @@ import pygame
 #
 
 class Camera(object):
-    CHAR_SIZE = (9, 13)
+    CHAR_SIZE = (16, 16)
     
     def __init__(self, width, height):
-        width = math.floor(width / Camera.CHAR_SIZE[0]) + 1
-        height = math.floor(height / Camera.CHAR_SIZE[1]) + 1
-        self.rect = pygame.Rect(0, 0, width, height)
+        width = math.floor(width / Camera.CHAR_SIZE[0]) + 2
+        height = math.floor(height / Camera.CHAR_SIZE[1]) + 2
+        self.rect = pygame.Rect(-1, -1, width, height)
 
     def move(self, pos):
         self.rect.center = pos
@@ -25,8 +25,8 @@ class Camera(object):
         x, y = pos
         a, b = Camera.CHAR_SIZE
         
-        tx = x - self.rect.left
-        ty = y - self.rect.top
+        tx = abs(x - self.rect.left) * a
+        ty = abs(y - self.rect.top) * b
         
-        return (tx * a, ty * b) 
+        return (tx, ty) 
         

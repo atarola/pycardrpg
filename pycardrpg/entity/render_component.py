@@ -8,5 +8,4 @@ class RenderComponent(object):
     
     def __init__(self):
         self.pos = (0, 0)
-        self.symbol = "@"
-        self.color = (255, 255, 255)
+        self.sprite_index = 0

@@ -6,13 +6,18 @@
 #
 
 class TileInstance(object):
-    def __init__(self, type):
+    def __init__(self, type, pos):
         self.type = type
+        self.pos = pos
         self.seen = False
     
     @property
     def symbol(self):
         return self.type.symbol
+    
+    @property
+    def sprite_index(self):
+        return self.type.sprite_index
     
     @property
     def passible(self):
@@ -34,11 +39,12 @@ class TileTypes(object):
     # A single tile type
     class TileType(object):
         
-        def __init__(self, symbol, passible, opaque):
+        def __init__(self, symbol, sprite_index, passible, opaque):
             self.symbol = symbol
+            self.sprite_index = sprite_index
             self.passible = passible
             self.opaque = opaque
 
-    WALL = TileType('#', False, True)
-    FLOOR = TileType('.', True, False)
-    DOOR = TileType('=', True, True)
+    CEILING = TileType('#', 24, False, True)
+    WALL = TileType('=', 2, False, False)
+    FLOOR = TileType('.', 1, True, False)

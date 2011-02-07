@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
-import os
 import pygame
 
-from pycardrpg.scene.render.colors import Colors
 from pycardrpg.scene.render.camera import Camera
+from pycardrpg.scene.render.colors import Colors
+from pycardrpg.scene.render.sprite_sheet import SpriteSheet
 
 #
 # Render System.
@@ -13,93 +13,53 @@ from pycardrpg.scene.render.camera import Camera
 class RenderSystem(object):
 
     def __init__(self, width, height, entity_system, map):
-        # will be structured as [symbol][color] = image
-        self.image_cache = {}
-        self.font = pygame.font.Font(os.path.join('pycardrpg', 'data', 'lucon.ttf'), 12)
+        self.map_sprites = SpriteSheet("map.png", rows=16, columns=16, starty=40)
+        self.unit_sprites = SpriteSheet("char.png", rows=41, columns=15, startx=7, starty=120, width=26, height=26, skipx=9, skipy=8)
         
+        self.fow_sprite = pygame.Surface((16, 16)).convert()
+        self.fow_sprite.fill(Colors.BLACK)
+        self.fow_sprite.set_alpha(128)
+        
+        self.camera = Camera(width, height)
         self.entity_system = entity_system
         self.map = map
-        self.camera = Camera(width, height)
-
-    # Render this frame onto the surface    
+        
+    # Render this frame onto the surface, we'll use the painters algorithm
+    # and render from back to front    
     def render(self, surface):
         surface.fill(Colors.BLACK)
-
-        # keeps track of rendered positions, each spot should only render once.
-        rendered_pos = []
         
+        # move the camera to the player
         player = self.entity_system.find_one("PlayerComponent", "RenderComponent", "UnitCard")
         pos = player.get("RenderComponent", "pos")
         fov_radius = player.get("UnitCard", "fov_radius")
-        visible_pos = self.map.get_fov(pos, fov_radius)
-        
-        # move the camera to the player, then render the player
         self.camera.move(pos)
-        self.render_entity(surface, rendered_pos, visible_pos, player)
-
-        # Render units
-        entities = self.entity_system.find("RenderComponent", "NPCComponent")
-        for entity in entities:
-            self.render_entity(surface, rendered_pos, visible_pos, entity)
-            
-        # Render items 
-        entities = self.entity_system.find("RenderComponent", "ItemComponent")
-        for entity in entities:
-            self.render_entity(surface, rendered_pos, visible_pos, entity)
         
-        # Figure out a better way!
-#        # Render visible tiles
-#        for tile in self.map.get_tiles(visible_pos):      
-#            self.render_tile(surface, rendered_pos, tile, Colors.LIGHTGREY)
-#        
-#        # Render seen tiles
-#        tiles = self.map.get_seen()
-#        for tile in tiles:
-#            if not self.camera.in_view(tile.pos):
-#                continue
-#            
-#            self.render_tile(surface, rendered_pos, tile, Colors.DARKGREY)
+        # render the tiles
+        tiles = self.map[self.camera.rect].filter("seen", True)
+        tiles_fov = self.map.get_fov_tiles(pos, fov_radius)
+        for tile in tiles:
+            visible = tile in tiles_fov
+            self.render_tile(surface, tile, visible)
     
-    # render an entity
-    def render_entity(self, surface, rendered_pos, visible_pos, entity):
-        pos = entity.get("RenderComponent", "pos")
-        symbol = entity.get("RenderComponent", "symbol")
-        color = entity.get("RenderComponent", "color")
-        
-        if pos in rendered_pos:
-            return
-        
-        if pos not in visible_pos:
-            return
-        
-        if not self.camera.in_view(pos):
-            return
-        
-        rendered_pos.append(pos)
-        self.render_item(surface, pos, symbol, color) 
+        # render player
+        self.render_unit(surface, player)
     
     # render a tile
-    def render_tile(self, surface, rendered_pos, tile, color):
-        if not tile.pos in rendered_pos:
-            rendered_pos.append(tile.pos)
-            self.render_item(surface, tile.pos, tile.symbol, color)
-    
-    # Render a single item onto the surface
-    def render_item(self, surface, pos, symbol, color):   
-        image = self.get_image(symbol, color) 
-        image_pos = self.camera.translate(pos)
-        surface.blit(image, image_pos)
-    
-    # Get the image for the symbol / color pair.
-    def get_image(self, symbol, color):
-        if symbol not in self.image_cache.keys():
-            self.image_cache[symbol] = {}
+    def render_tile(self, surface, tile, visible):
+        image = self.map_sprites[tile.sprite_index]
+        pos = self.camera.translate(tile.pos)
+        surface.blit(image, pos)
         
-        # if we have a cached version of the image, return it.
-        if color in self.image_cache[symbol].keys():
-            return self.image_cache[symbol][color]
+        if not visible:
+            surface.blit(self.fow_sprite, pos)
+    
+    def render_unit(self, surface, unit):
+        image = self.unit_sprites[unit.get("RenderComponent", "sprite_index")]
+        pos = unit.get("RenderComponent", "pos")
         
-        # create a new image, cache it, then return it.
-        image = self.font.render(symbol, 0, color).convert_alpha()
-        self.image_cache[symbol][color] = image
-        return image
+        # the units are taller and fatter than the tiles, so we'll need to offset
+        x, y = self.camera.translate(pos)
+        surface.blit(image, (x - 4, y - 12))
+    
+

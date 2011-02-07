@@ -4,6 +4,7 @@ import pygame
 from pygame.locals import *
 
 from pycardrpg.scene.scene_system import SceneSystem
+from pycardrpg.scene.render.colors import Colors
 
 #
 # Main application object
@@ -21,7 +22,7 @@ class Application(SceneSystem):
         pygame.font.init()
         pygame.display.set_caption(caption)
         self.surface = pygame.display.set_mode((width, height))
-        self.surface.fill((0, 0, 0))
+        self.surface.fill(Colors.BLACK)
 
     def run(self):
         clock = pygame.time.Clock()
