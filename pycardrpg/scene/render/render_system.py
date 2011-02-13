@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import sys
+
 import pygame
 
 from pycardrpg.scene.render.camera import Camera
@@ -25,6 +27,7 @@ class RenderSystem(object):
         self.camera = Camera(width, height)
         self.entity_system = entity_system
         self.map = map
+
         
     # Render this frame onto the surface, we'll use the painters algorithm
     # and render from back to front    
@@ -49,8 +52,8 @@ class RenderSystem(object):
     
     # render a tile
     def render_tile(self, surface, tile, visible):
-        image = self.map_sprites[tile.sprite_index]
         pos = self.camera.translate(tile.pos)
+        image = self.map_sprites[tile.index]
         surface.blit(image, pos)
         
         if not visible:

@@ -10,14 +10,15 @@ class TileInstance(object):
         self.type = type
         self.pos = pos
         self.seen = False
+        self.index = self.default_index
     
     @property
     def symbol(self):
         return self.type.symbol
     
     @property
-    def sprite_index(self):
-        return self.type.sprite_index
+    def default_index(self):
+        return self.type.default_index
     
     @property
     def passible(self):
@@ -39,9 +40,9 @@ class TileTypes(object):
     # A single tile type
     class TileType(object):
         
-        def __init__(self, symbol, sprite_index, passible, opaque):
+        def __init__(self, symbol, default_index, passible, opaque):
             self.symbol = symbol
-            self.sprite_index = sprite_index
+            self.default_index = default_index
             self.passible = passible
             self.opaque = opaque
 

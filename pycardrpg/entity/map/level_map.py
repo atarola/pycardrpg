@@ -25,8 +25,7 @@ class LevelMap(object):
             return TileInstance(self.default, pos)
         
     def get_area(self, x, y, width, height):
-        tiles = self[y:y + height, x:x + width]
-        return TileList(tiles)
+        return self[y:y + height, x:x + width]
     
     def get_fov(self, pos, radius):
         return self.fov.do_fov(pos, radius)

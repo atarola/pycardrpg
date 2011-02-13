@@ -2,6 +2,7 @@
 
 from pycardrpg.entity.map.level_map import LevelMap
 from pycardrpg.entity.map.tiles import TileTypes
+from pycardrpg.entity.map.tile_picker import TilePicker
 
 #
 # Map Generator
@@ -36,4 +37,12 @@ class MapGenerator():
         level_map[7, 12].type = TileTypes.WALL
         level_map[11, 12].type = TileTypes.WALL
         
+        self._select_tiles(level_map)
         return level_map
+
+    def _select_tiles(self, level_map):
+        tile_picker = TilePicker(level_map)
+        
+        for tile in level_map:
+            tile.index = tile_picker.pick(tile)
+        
