@@ -8,10 +8,6 @@ import pygame
 from pycardrpg.entity.map.level_map import LevelMap
 from pycardrpg.entity.map.tiles import TileTypes
 
-#
-#
-#
-
 class LevelMapTest(TestCase):
 
     def setUp(self):
@@ -56,14 +52,13 @@ class LevelMapTest(TestCase):
         self.assertFalse(self.map[2, 4].seen)
 
     def testGetArea(self):
-        tiles = self.map.get_area((2, 2), 2, 2)
+        tiles = self.map.get_area(2, 2, 2, 2)
         
         self.assertEquals(len(tiles), 4)
 
     def testFOVEmptyArea(self):
-        pos = (1, 1)
-        self.map.get_area(pos, 8, 8).type = TileTypes.FLOOR
-        tiles = self.map.get_fov(pos, 5)      
+        self.map.get_area(1, 1, 8, 8).type = TileTypes.FLOOR
+        tiles = self.map.get_fov_tiles((1, 1), 5)      
         
         self.assertTrue(self.map[1, 5] in tiles)
         self.assertFalse(self.map[1, 6] in tiles)
@@ -71,11 +66,10 @@ class LevelMapTest(TestCase):
         self.assertFalse(self.map[6, 1] in tiles)
 
     def testFOVBlocked(self):
-        pos = (1, 1)
-        self.map.get_area(pos, 8, 8).type = TileTypes.FLOOR
-        self.map[1, 3].type = TileTypes.WALL
-        tiles = self.map.get_fov(pos, 5)
-        
+        self.map.get_area(1, 1, 8, 8).type = TileTypes.FLOOR
+        self.map[1, 3].type = TileTypes.CEILING
+        tiles = self.map.get_fov_tiles((1, 1), 5)
+
         self.assertTrue(self.map[1, 3] in tiles)
         self.assertFalse(self.map[1, 4] in tiles)
         

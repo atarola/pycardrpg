@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from pycardrpg.entity.card import Card
+from pycardrpg.entity.card.card import Card
 
 #
 # Equipment Card

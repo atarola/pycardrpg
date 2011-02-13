@@ -5,7 +5,7 @@ import os
 import yaml 
 
 #
-# Given a position, return the proper tile for that.
+# Given a position, return the proper tile to put there.
 #
 
 class TilePicker(object):
@@ -67,21 +67,12 @@ class TileRule(object):
                 return False
         
         return True
-        
-#
-# A matching rule 
-#
-
-class Matcher(object):
-    
-    def matches(self, tile):
-        raise Exception("Subclass me!")
 
 #
 # AnyMatcher, just say yes
 #
 
-class Any(Matcher):
+class Any(object):
     
     def matches(self, tile):
         return True
@@ -90,20 +81,19 @@ class Any(Matcher):
 # Is, matches if the item and arg are equal
 #
 
-class Is(Matcher):
+class Is(object):
     
     def __init__(self, item):
         self.item = item
         
     def matches(self, tile):
-
         return self.item == tile
     
 #
 # Not, matches all args except item
 #
 
-class Not(Matcher):
+class Not(object):
     
     def __init__(self, item):
         self.item = item

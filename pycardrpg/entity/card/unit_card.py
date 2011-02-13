@@ -5,7 +5,6 @@ from pycardrpg.entity.card.slot_holder import SlotHolder
 
 #
 # UnitCard class, base class for all units in the game.
-# TODO: Skills, Action Deck, Action Cards, Equipment Requirements
 #
 
 class UnitCard(Card):
@@ -26,6 +25,7 @@ class UnitCard(Card):
         
         # equipment
         self.equipment = SlotHolder(["Equipment"])
+        self.skills = SlotHolder(["Skill"])
         
         # current hit points and action points
         self.cur_hp = self.max_hp
@@ -42,6 +42,18 @@ class UnitCard(Card):
     
     def remove_equipment_card(self, card):
         self.equipment.remove_card(card)
+
+    def add_skill_slot(self, tags=[]):
+        self.skills.add_slot(tags)
+
+    def get_skill_cards(self):
+        return self.skills.get_cards()
+
+    def add_skill_card(self, card):
+        self.skills.add_card(card)
+        
+    def remove_skill_card(self, card):
+        self.skills.remove_card(card)
 
     def get_modifier(self, name):
         modifier = 0
@@ -72,10 +84,11 @@ class UnitCard(Card):
         return self.strength + self.stamina * 2
     
     @property
+    def max_ap(self):
+        return self.ap_recharge * 10
+    
+    @property
     def ap_recharge(self):
         return self.dexterity + self.stamina
     
-    @property
-    def max_ap(self):
-        return self.ap_recharge * 10
 

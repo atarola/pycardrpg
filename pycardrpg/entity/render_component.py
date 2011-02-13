@@ -8,4 +8,4 @@ class RenderComponent(object):
     
     def __init__(self):
         self.pos = (0, 0)
-        self.sprite_index = 0
+        self.index = 0

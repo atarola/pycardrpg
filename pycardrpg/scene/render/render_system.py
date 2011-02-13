@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-import sys
-
 import pygame
 
 from pycardrpg.scene.render.camera import Camera
@@ -28,7 +26,6 @@ class RenderSystem(object):
         self.entity_system = entity_system
         self.map = map
 
-        
     # Render this frame onto the surface, we'll use the painters algorithm
     # and render from back to front    
     def render(self, surface):

@@ -31,7 +31,7 @@ class MainScene(Scene):
         unit.add_component(UnitCard("player"))
         unit.add_component(RenderComponent())    
         unit.set("RenderComponent", "pos", (2, 2))
-        unit.set("RenderComponent", "sprite_index", 1)
+        unit.set("RenderComponent", "index", 1)
         
         pos = unit.get("RenderComponent", "pos")
         fov_radius = unit.get("UnitCard", 'fov_radius')   
