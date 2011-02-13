@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import os
-
 import yaml 
 
 #
@@ -15,7 +14,7 @@ class TilePicker(object):
         self.rules = []
         
         # create our rules from the data file
-        filename = os.path.join('pycardrpg', 'data', 'tile_rules.yaml')
+        filename = os.path.join('pycardrpg', 'data', 'rules_tiles.yaml')
         data = file(filename).read()
         rules = yaml.load(data)       
         

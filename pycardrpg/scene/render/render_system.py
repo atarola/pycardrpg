@@ -13,8 +13,8 @@ from pycardrpg.scene.render.sprite_sheet import SpriteSheet
 class RenderSystem(object):
 
     def __init__(self, width, height, entity_system, map):
-        self.map_sprites = SpriteSheet("map.png", rows=16, columns=16, starty=40)
-        self.unit_sprites = SpriteSheet("char.png", rows=41, columns=15, startx=7, 
+        self.map_sprites = SpriteSheet("sprites_map.png", rows=16, columns=16, starty=40)
+        self.unit_sprites = SpriteSheet("sprites_char.png", rows=41, columns=15, startx=7, 
                                         starty=120, width=26, height=26, skipx=9, 
                                         skipy=8)
         
@@ -32,9 +32,9 @@ class RenderSystem(object):
         surface.fill(Colors.BLACK)
         
         # move the camera to the player
-        player = self.entity_system.find_one("PlayerComponent", "RenderComponent", "UnitCard")
+        player = self.entity_system.find_one("PlayerComponent")
         pos = player.get("RenderComponent", "pos")
-        fov_radius = player.get("UnitCard", "fov_radius")
+        fov_radius = player.get("UnitComponent", "fov_radius")
         self.camera.move(pos)
         
         # render the tiles
@@ -43,6 +43,13 @@ class RenderSystem(object):
         for tile in tiles:
             visible = tile in tiles_fov
             self.render_tile(surface, tile, visible)
+    
+        # render the npcs
+        npcs = self.entity_system.find("NpcComponent")
+        for npc in npcs: 
+            tile = self.map[npc.get("RenderComponent", "pos")]         
+            if tile in tiles_fov:
+                self.render_unit(surface, npc)
     
         # render player
         self.render_unit(surface, player)
@@ -57,7 +64,7 @@ class RenderSystem(object):
             surface.blit(self.fow_sprite, pos)
     
     def render_unit(self, surface, unit):
-        image = self.unit_sprites[unit.get("RenderComponent", "sprite_index")]
+        image = self.unit_sprites[unit.get("RenderComponent", "index")]
         pos = unit.get("RenderComponent", "pos")
         
         # the units are taller and fatter than the tiles, so we'll need to offset

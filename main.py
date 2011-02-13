@@ -10,7 +10,7 @@ from pycardrpg.scene.main_scene import MainScene
 class PyCardRPG(Application):
     
     def __init__(self):        
-        Application.__init__(self, "PyGameRPG v0.1", 800, 600, 30)
+        Application.__init__(self, "PyGameRPG v0.1", 800, 600, 60)
         
         self.add_scene("MainScene", MainScene())
         self.switch_scene("MainScene")
@@ -18,7 +18,7 @@ class PyCardRPG(Application):
     @classmethod
     def start(cls):
         cls().run()
-    
+        
 #
 # Run the app if this file is called from the commandline
 #

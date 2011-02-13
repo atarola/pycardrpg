@@ -41,6 +41,6 @@ class Application(SceneSystem):
             if event.type == QUIT:
                 self.stop = True
                 return
-            
+
             self.on_event(event)
 

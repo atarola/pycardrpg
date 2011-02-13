@@ -3,16 +3,16 @@
 import unittest
 from unittest import TestCase
 
-from pycardrpg.entity.card.unit_card import UnitCard
-from pycardrpg.entity.card.equipment_card import EquipmentCard
+from pycardrpg.entity.unit_component import UnitComponent
+from pycardrpg.entity.card.card import Card
 
-class UnitCardTest(TestCase):
+class UnitComponentTest(TestCase):
 
     def setUp(self):
-        self.unit_card = UnitCard("test")
+        self.unit_card = UnitComponent()
     
     def testAddEquipmentCard(self):
-        equipment_card = EquipmentCard("foo")
+        equipment_card = Card("foo", ["Equipment"])
         
         self.unit_card.add_equipment_slot()
         self.unit_card.add_equipment_card(equipment_card)
@@ -20,7 +20,7 @@ class UnitCardTest(TestCase):
         self.assertTrue(equipment_card in self.unit_card.get_equipment_cards())
 
     def testRemoveEquipmentCard(self):
-        equipment_card = EquipmentCard("foo")
+        equipment_card = Card("foo", ["Equipment"])
         
         self.unit_card.add_equipment_slot()
         self.unit_card.add_equipment_card(equipment_card)

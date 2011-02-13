@@ -1,18 +1,14 @@
 #!/usr/bin/env python
 
-from pycardrpg.entity.card.card import Card
 from pycardrpg.entity.card.slot_holder import SlotHolder
 
 #
 # UnitCard class, base class for all units in the game.
 #
 
-class UnitCard(Card):
+class UnitComponent(object):
     
-    def __init__(self, name, tags=[]):
-        tags.append("Unit")
-        Card.__init__(self, name, tags)
-        
+    def __init__(self):
         # Unit Attributes
         self.base_strength = 1
         self.base_intelligence = 1
@@ -23,7 +19,7 @@ class UnitCard(Card):
         # current experience points
         self.exp = 0
         
-        # equipment
+        # equipment, skills, and inventory
         self.equipment = SlotHolder(["Equipment"])
         self.skills = SlotHolder(["Skill"])
         
@@ -59,6 +55,9 @@ class UnitCard(Card):
         modifier = 0
         
         for card in self.equipment.get_cards():
+            modifier += card.modifiers.get(name, 0)
+
+        for card in self.skills.get_cards():
             modifier += card.modifiers.get(name, 0)
 
         return modifier

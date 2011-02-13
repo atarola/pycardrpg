@@ -1,0 +1,36 @@
+
+#
+# Equipment Templates
+#
+
+equipment:
+  - name: Shield
+    tags: ["Equipment", "Shield"]
+    modifiers:
+      defense: 1
+      dexterity: -1
+
+  - name: Club
+    tags: ["Equipment", "Weapon"]
+    modifiers:
+      attack: 1
+
+  - name: Sword
+    tags: ["Equipment", "Weapon"]
+    modifiers:
+      attack: 3
+
+#
+# Skills Templates
+#
+
+skills:
+  - name: Dodge I
+    tags: ["Skill", "Dodge"]
+    modifiers:
+      defense: 1
+      
+  - name: Dodge II
+    tags: ["Skill", "Dodge"]
+    modifiers:
+      defense: 2
