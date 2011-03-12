@@ -3,11 +3,10 @@
 from pygame.locals import *
 
 from pycardrpg.scene.event_system import EventSystem
-from pycardrpg.scene.controller.move_action import MoveAction
-from pycardrpg.scene.controller.update_view_action import UpdateViewAction
+from pycardrpg.scene.controller.move_event import MoveEvent
 
 #
-# Player controller.  Handle what the player does
+# Player controller.  
 #
 
 class PlayerController(EventSystem):
@@ -26,11 +25,16 @@ class PlayerController(EventSystem):
         if not self.ready:
             return False
         
-        for action in self.actions:
-            action.execute()
+        player = self.entity_system.find_one("PlayerComponent")
+        memory = {"player": player, "map": self.map}
+
+        while len(self.actions) > 0:
+            action = self.actions.pop(0)
+            action.execute(memory)
         
-        self.actions = []
-        self.ready = False
+        self.ready = False 
+        self._update_fov(player)
+        
         return True
     
     def on_key_down(self, scancode, key, mod, unicode):
@@ -54,8 +58,22 @@ class PlayerController(EventSystem):
     def move_player(self, dx, dy):
         entity = self.entity_system.find_one("PlayerComponent")
         x, y = entity.get("RenderComponent", "pos")
+        pos = (x + dx, y + dy)
         
-        if self.map[x + dx, y + dy].passible:
-            self.actions.append(MoveAction(entity, dx, dy))
-            self.actions.append(UpdateViewAction(entity, self.map))
-            self.ready = True
+        # if the new spot isn't passible, ignore the command
+        if not self.map[pos].passible:
+            return
+        
+        # if the new spot is occupied, ignore the command
+        for entity in self.entity_system.find("NpcComponent"):
+            if entity.get("RenderComponent", "pos") == pos:
+                return
+        
+        # add the move event and allow the events to run
+        self.actions.append(MoveEvent("player", dx, dy))
+        self.ready = True
+
+    def _update_fov(self, player):
+        pos = player.get("RenderComponent", "pos")
+        fov_radius = player.get("UnitComponent", "fov_radius")
+        self.map.get_fov_tiles(pos, fov_radius).seen = True

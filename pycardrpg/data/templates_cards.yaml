@@ -21,7 +21,7 @@ equipment:
       attack: 3
 
 #
-# Skills Templates
+# Skill Templates
 #
 
 skills:
@@ -34,3 +34,18 @@ skills:
     tags: ["Skill", "Dodge"]
     modifiers:
       defense: 2
+
+#
+# Action Templates
+#
+
+actions:
+  - name: Attack
+    tags: ["Action"]
+    modifiers:
+        ~
+    events:
+        SelectTargetEvent:
+            ~
+        AttackEvent:
+            ~

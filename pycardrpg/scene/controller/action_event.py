@@ -6,9 +6,6 @@
 
 class ActionEvent(object):
     
-    def __init__(self):
-        pass
-    
-    def execute(self):
+    def execute(self, memory):
         pass
     
