@@ -5,8 +5,8 @@ from unittest import TestCase
 
 import pygame
 
-from pycardrpg.entity.map.level_map import LevelMap
-from pycardrpg.entity.map.tiles import TileTypes
+from pycardrpg.model.map.level_map import LevelMap
+from pycardrpg.model.map.tiles import TileTypes
 
 class LevelMapTest(TestCase):
 

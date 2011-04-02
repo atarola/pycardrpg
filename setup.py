@@ -33,4 +33,4 @@ setup(
     
     # zip safe
     zip_safe = False
-)
+) 

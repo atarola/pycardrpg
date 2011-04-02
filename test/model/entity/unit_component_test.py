@@ -3,8 +3,8 @@
 import unittest
 from unittest import TestCase
 
-from pycardrpg.entity.unit_component import UnitComponent
-from pycardrpg.entity.card.card import Card
+from pycardrpg.model.entity.unit_component import UnitComponent
+from pycardrpg.model.card.card import Card
 
 class UnitComponentTest(TestCase):
 

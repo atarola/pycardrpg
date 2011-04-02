@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from pycardrpg.entity.card.slot_holder import SlotHolder
+from pycardrpg.model.card.slot_holder import SlotHolder
 
 #
 # UnitCard class, base class for all units in the game.

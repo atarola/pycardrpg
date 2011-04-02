@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
-from pycardrpg.entity.map.level_map import LevelMap
-from pycardrpg.entity.map.tiles import TileTypes
-from pycardrpg.entity.map.tile_picker import TilePicker
+from pycardrpg.model.map.level_map import LevelMap
+from pycardrpg.model.map.tiles import TileTypes
+from pycardrpg.model.map.tile_picker import TilePicker
 
-from pycardrpg.entity.unit_repository import UnitRepository
+from pycardrpg.model.entity.unit_repository import UnitRepository
 
 #
 # Map Generator

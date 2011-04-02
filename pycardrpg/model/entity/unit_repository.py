@@ -3,11 +3,11 @@
 import os
 import yaml
 
-from pycardrpg.entity.card.card_repository import card_repository
-from pycardrpg.entity.unit_component import UnitComponent
-from pycardrpg.entity.render_component import RenderComponent
-from pycardrpg.entity.player_component import PlayerComponent
-from pycardrpg.entity.npc_component import NpcComponent
+from pycardrpg.model.card.card_repository import card_repository
+from pycardrpg.model.entity.unit_component import UnitComponent
+from pycardrpg.model.entity.render_component import RenderComponent
+from pycardrpg.model.entity.player_component import PlayerComponent
+from pycardrpg.model.entity.npc_component import NpcComponent
 
 #
 # Repository for cards, created from the template 

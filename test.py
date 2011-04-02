@@ -43,6 +43,6 @@ def find_files(dirname, prefix=''):
 
 if __name__ == "__main__":
     suite = create_suite()
-    runner = unittest.TextTestRunner()
+    runner = unittest.TextTestRunner() 
     runner.run(suite)
 

@@ -24,4 +24,4 @@ class PyCardRPG(Application):
 #
 
 if __name__ == "__main__":
-    PyCardRPG.start()
+    PyCardRPG.start() 

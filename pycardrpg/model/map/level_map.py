@@ -2,8 +2,8 @@
 
 import pygame
 
-from pycardrpg.entity.map.fov_util import FovUtil
-from pycardrpg.entity.map.tiles import TileInstance, TileTypes
+from pycardrpg.model.map.fov_util import FovUtil
+from pycardrpg.model.map.tiles import TileInstance, TileTypes
 
 #
 # Level Map

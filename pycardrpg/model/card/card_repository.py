@@ -3,7 +3,7 @@
 import os
 import yaml
 
-from pycardrpg.entity.card.card import Card
+from pycardrpg.model.card.card import Card
 
 #
 # Repository for cards, created from the template 
