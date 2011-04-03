@@ -12,6 +12,8 @@ class SpriteSheet(list):
     
     def __init__(self, file, rows=1, columns=1, width=16, height=16, 
                  startx=0, starty=0, skipx=0, skipy=0):
+                 
+        list.__init__(self)
         
         rect = pygame.Rect(startx, starty, width, height)
         image = self._get_image(file)

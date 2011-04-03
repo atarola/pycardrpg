@@ -26,6 +26,19 @@ class EventSystemTest(TestCase):
         self.event_system.process(event)
         
         self.assertEquals(handler.data['a'], 1)
+        
+    def testHandleSubtype(self):
+        good_event = Event(USEREVENT, {'subtype': 'foo', 'a': 1})
+        bad_event = Event(USEREVENT, {'subtype': 'bar', 'a': 1337})
+        handler = Fake()
+        
+        self.event_system.on(USEREVENT, handler.handle, subtype='foo')
+        
+        self.event_system.process(bad_event)
+        self.assertFalse('a' in handler.data.keys())
+        
+        self.event_system.process(good_event)
+        self.assertEquals(handler.data['a'], 1)
 
 #
 # Fake object, to test the handling of stuff
