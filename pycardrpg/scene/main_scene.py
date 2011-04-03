@@ -12,6 +12,8 @@ from pycardrpg.model.entity.entity_system import EntitySystem
 class MainScene(Scene):
     
     def __init__(self):
+        Scene.__init__(self)
+        
         self.events = []
         self.player_turn = True
         
@@ -23,11 +25,13 @@ class MainScene(Scene):
         self.render_system = RenderSystem(800, 600, self.entity_system, self.map)
 
     def on_update(self, surface):
+        # process any pending events
         if self.events:
-		    self.events.pop()
+		    event = self.events.pop()
+		    Scene.process(self, event)
 		    
         # render the results
         self.render_system.render(surface)
 
-    def on_event(self, event):
+    def process(self, event):
         self.events.insert(0, event)

@@ -25,7 +25,7 @@ class SceneSystem(object):
         self.current.on_start()
         
     def on_event(self, event):
-        self.current.on_event(event)
+        self.current.process(event)
         
     def on_update(self, surface):
         self.current.on_update(surface)
