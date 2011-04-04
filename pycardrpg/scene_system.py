@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 
-import pygame
-from pygame.sprite import LayeredUpdates
-
 from pycardrpg.entity_system import EntitySystem
 from pycardrpg.event_system import EventSystem
+from pycardrpg.render_system import RenderSystem
 
 #
 # Uses the strategy pattern to encapsulate different 
@@ -36,14 +34,13 @@ class SceneSystem(object):
         
 #
 # A single scene.  Represents a single section of the game. 
-# contains a list of sprites, and dispatches events for
-# it's subsection
+# contains a list of sprites, and dispatches events.
 #
 
 class Scene(object):
 
     def __init__(self):
-        self.sprites = LayeredUpdates()
+        self.render_system = RenderSystem()
         self.entity_system = EntitySystem() 
         self.event_system = EventSystem()
     
@@ -51,25 +48,18 @@ class Scene(object):
         sprite = None
         
         if 'pos' in event.dict.keys():
-            sprite = self._get_sprite(event.pos)
+            sprite = self.render_system.get_sprite(event.pos)
         
         self.event_system.process(event, sprite)
     
     def on_update(self, surface):
-        self.sprites.update()
-        self.sprites.draw(surface)
+        self.render_system.update()
+        self.render_system.draw(surface)
         
     def on_start(self):
         pass 
 
     def on_exit(self):
         pass
-        
-    def _get_sprite(self, pos):
-        sprites = self.sprites.get_sprites_at(pos)
-        
-        if sprites:
-            return sprites.pop()
-        else:
-            return None
+
 

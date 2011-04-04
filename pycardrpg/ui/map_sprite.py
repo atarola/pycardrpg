@@ -6,7 +6,7 @@ import pygame
 from pygame import USEREVENT
 from pygame.sprite import Sprite
 
-from pycardrpg.view.sprite_sheet import SpriteSheet
+from pycardrpg.ui.sprite_sheet import SpriteSheet
 
 #
 # Render System.
