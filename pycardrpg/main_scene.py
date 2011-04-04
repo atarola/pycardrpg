@@ -5,8 +5,7 @@ from pygame import USEREVENT
 
 from pycardrpg.scene_system import Scene
 from pycardrpg.model.map_generator import MapGenerator
-from pycardrpg.ui.map_controller import MapController
-from pycardrpg.ui.map_sprite import MapSprite
+from pycardrpg.ui.map_view import MapView
 
 #
 # The main scene of the game.
@@ -20,7 +19,10 @@ class MainScene(Scene):
         self.player_turn = True
         
     def on_start(self):
+        # setup the map
         self._setup_map()
+        
+        # listen for the events we care about
         self.event_system.on(USEREVENT, self.on_end_turn, subtype='end_turn')
 
     def on_update(self, surface):
@@ -42,8 +44,8 @@ class MainScene(Scene):
         self.player_turn = False
 
     def _setup_map(self):
-        self.map = MapGenerator(self.entity_system).generate()
-        self.map_controller = MapController(self.event_system, self.entity_system, self.map)
-        map_sprite = MapSprite(800, 600, self.event_system, self.entity_system, self.map)
-        self.render_system.add(map_sprite, layer=0)
+        self.map = MapGenerator(self.entity_system).generate()      
+        self.map_view = MapView(800, 600, self.event_system, self.entity_system, self.map)
+        self.map_view.load()
+        self.render_system.add(self.map_view.get_sprites(), layer=0)
 

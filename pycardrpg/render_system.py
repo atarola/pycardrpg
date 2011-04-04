@@ -9,6 +9,12 @@ from pygame.sprite import LayeredUpdates
 
 class RenderSystem(LayeredUpdates):
     
+    # rendering layers. pygame will render added sprites sorted by this order, 
+    # then by which sprite was added first
+    MAP_LAYER = 0
+    UI_LAYER = 1
+    PANEL_LAYER = 2
+    
     def __init__(self):
         LayeredUpdates.__init__(self)
     

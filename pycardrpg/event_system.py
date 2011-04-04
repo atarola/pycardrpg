@@ -21,7 +21,7 @@ class EventSystem(object):
         data = event.dict
         data.setdefault('subtype', None)
         data.setdefault('sprite', sprite)
-        
+                
         # get the signal, and use it to notify the slots
         signal = self._get_signal(event.type, data['subtype'])
         signal(data)

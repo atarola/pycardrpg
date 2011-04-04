@@ -52,4 +52,4 @@ h2. License
 
 "The Free Pixel Project":http://www.squidi.net/pixel created most of the awesome pixel art we use. Their art is licensed under a "Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License":http://creativecommons.org/licenses/by-nc-sa/3.0/  
 
-Everything else is (c) The PyCardRPG project, and licensed under the MIT License.
+Everything else is (c) The PyCardRPG Authors, and licensed under the MIT License.
