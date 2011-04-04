@@ -3,14 +3,16 @@
 import pygame
 from pygame.locals import *
 
-from pycardrpg.scene.scene_system import SceneSystem
-from pycardrpg.scene.render.colors import Colors
+from pycardrpg.scene_system import SceneSystem
+from pycardrpg.event_system import EventSystem
 
 #
 # Main application object
 #
 
 class Application(SceneSystem):
+    
+    BLACK = (0, 0, 0)
 
     def __init__(self, caption, width, height, fps):
         SceneSystem.__init__(self)
@@ -22,7 +24,7 @@ class Application(SceneSystem):
         pygame.font.init()
         pygame.display.set_caption(caption)
         self.surface = pygame.display.set_mode((width, height))
-        self.surface.fill(Colors.BLACK)
+        self.surface.fill(Application.BLACK)
 
     def run(self):
         clock = pygame.time.Clock()

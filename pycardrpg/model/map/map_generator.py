@@ -4,7 +4,7 @@ from pycardrpg.model.map.level_map import LevelMap
 from pycardrpg.model.map.tiles import TileTypes
 from pycardrpg.model.map.tile_picker import TilePicker
 
-from pycardrpg.model.entity.unit_repository import UnitRepository
+from pycardrpg.model.unit_repository import UnitRepository
 
 #
 # Map Generator

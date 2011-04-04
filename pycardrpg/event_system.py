@@ -7,25 +7,29 @@ from pygame import USEREVENT
 from pygame.event import Event
 
 #
-# Event System.  Uses a signal/slot system to process information.
+#
 #
 
 class EventSystem(object):
     
     def __init__(self):
-       self.signals = {}
-       self.stack = []
+        self.signals = {}
+        self.stack = []
     
-    def process(self, event):
-        event_type = event.type
-        subtype = event.dict.get('subtype', None)
-        signal = self._get_signal(event_type, subtype)
-        signal(event.dict)
-    
+    def process(self, event, sprite=None):
+        # setup the data dictionary
+        data = event.dict
+        data.setdefault('subtype', None)
+        data.setdefault('sprite', sprite)
+        
+        # get the signal, and use it to notify the slots
+        signal = self._get_signal(event.type, data['subtype'])
+        signal(data)
+
     def on(self, event_type, handler, subtype=None):
         signal = self._get_signal(event_type, subtype)
         signal.connect(handler)
-       
+
     def remove(self, event_type, handler, subtype=None):
         signal = self._get_signal(event_type, subtype)
         signal.disconnect(handler)
@@ -33,11 +37,11 @@ class EventSystem(object):
     def clear(self, event_type, subtype=None):
         signal = self._get_signal(event_type, subtype)
         signal.clear()
-        
+
     def push(self):
         self.stack.append(self.signals)
         self.signals = {}
-        
+
     def pop(self):
         signals = self.stack.pop()
         self.signals = signals
@@ -47,7 +51,7 @@ class EventSystem(object):
             name = "%s#%s" % (event_type, subtype)
         else:
             name = event_type
-        
+
         return self.signals.setdefault(name, Signal())
 
 #
@@ -75,7 +79,7 @@ class Signal(object):
 
     def clear(self):
         self.__slots.clear()
-        
+
 #
 # method to create and inject user events into the pygame event system.
 #
@@ -83,4 +87,3 @@ class Signal(object):
 def inject_user_event(subtype, **kwargs):
     kwargs['subtype'] = subtype
     pygame.event.post(Event(USEREVENT, kwargs))
-

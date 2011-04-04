@@ -3,20 +3,20 @@
 import pygame
 from pygame.locals import *
 
-from pycardrpg.scene.event_system import inject_user_event
+from pycardrpg.event_system import inject_user_event
 
 #
-# Move Controller, Handle player movement
+# Map Controller, Handle player movement
 #
 
-class MoveController(object):
+class MapController(object):
     
-    def __init__(self, scene, entity_system, map):
+    def __init__(self, event_system, entity_system, map):
         self.entity_system = entity_system
         self.map = map
         
         # wire up our listener
-        scene.on(KEYUP, self.on_keyup)
+        event_system.on(KEYUP, self.on_keyup)
         
     # move the character on keyup
     def on_keyup(self, data):
@@ -54,6 +54,8 @@ class MoveController(object):
 
         player.set("RenderComponent", "pos", pos)
         self._update_fov(player)
+        
+        inject_user_event('map_changed')
         inject_user_event('end_turn')
 
     def _update_fov(self, player):
