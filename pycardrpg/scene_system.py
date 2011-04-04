@@ -62,4 +62,3 @@ class Scene(object):
     def on_exit(self):
         pass
 
-

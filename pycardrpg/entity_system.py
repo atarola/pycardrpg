@@ -98,3 +98,4 @@ class Entity(object):
     # get a componet for this entity
     def get_component(self, component_name):
         return self.entity_system.get_component(self, component_name)
+

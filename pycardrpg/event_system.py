@@ -87,3 +87,4 @@ class Signal(object):
 def inject_user_event(subtype, **kwargs):
     kwargs['subtype'] = subtype
     pygame.event.post(Event(USEREVENT, kwargs))
+

@@ -143,3 +143,4 @@ card_repository = CardRepository()
 
 class DoesNotFitException(Exception):
     pass
+

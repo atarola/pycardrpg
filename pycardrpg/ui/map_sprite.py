@@ -119,3 +119,4 @@ class Camera(object):
         ty = abs(y - self.rect.top) * b
 
         return (tx, ty) 
+

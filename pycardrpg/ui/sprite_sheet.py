@@ -42,3 +42,4 @@ class SpriteSheet(list):
     
     def _get_filename(self, file):
         return os.path.join('pycardrpg', 'data', file)
+

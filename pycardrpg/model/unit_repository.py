@@ -72,3 +72,4 @@ class UnitRepository(object):
                 name = item["content"]
                 card = self.card_repository.get_skill_card(name)
                 unit_component.add_skill_card(card)
+

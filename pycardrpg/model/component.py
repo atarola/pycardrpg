@@ -117,4 +117,3 @@ class PlayerComponent(object):
 class NpcComponent(object):
     pass
 
-

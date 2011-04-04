@@ -20,4 +20,4 @@ class RenderSystem(LayeredUpdates):
             return sprites.pop()
         else:
             return None
-        
+
