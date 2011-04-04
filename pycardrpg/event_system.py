@@ -21,18 +21,27 @@ class EventSystem(object):
         data = event.dict
         data.setdefault('subtype', None)
         data.setdefault('sprite', sprite)
-                
+
         # get the signal, and use it to notify the slots
         signal = self._get_signal(event.type, data['subtype'])
         signal(data)
 
+    # TODO: put the handler first
     def on(self, event_type, handler, subtype=None):
         signal = self._get_signal(event_type, subtype)
         signal.connect(handler)
 
+    # TODO: put the handler first
     def remove(self, event_type, handler, subtype=None):
         signal = self._get_signal(event_type, subtype)
         signal.disconnect(handler)
+
+    def get(self, event_type, subtype=None):
+        return self._get_signal(event_type, subtype)
+
+    def set(self, signal, event_type, subtype=None):
+        key  = self._get_key(event_type, subtype)
+        self.signals[key] = signal
 
     def clear(self, event_type, subtype=None):
         signal = self._get_signal(event_type, subtype)
@@ -47,13 +56,15 @@ class EventSystem(object):
         self.signals = signals
 
     def _get_signal(self, event_type, subtype):
-        if subtype is not None:
-            name = "%s#%s" % (event_type, subtype)
-        else:
-            name = event_type
-
-        return self.signals.setdefault(name, Signal())
-
+        key = self._get_key(event_type, subtype)
+        return self.signals.setdefault(key, Signal())
+    
+    def _get_key(self, event_type, subtype):
+        if subtype is None:
+            return event_type
+            
+        return "%s#%s" % (event_type, subtype)
+        
 #
 # Signal Class, used to represent a single signal type.  
 # From: http://code.activestate.com/recipes/576477-yet-another-signalslot-implementation-in-python

@@ -23,7 +23,7 @@ class MapView(View):
         self.height = height
         self.map_sprite = None
         
-    def load(self):
+    def load(self, data):
         self.event_system.on(KEYUP, self.on_keyup)
 
     def unload(self):
