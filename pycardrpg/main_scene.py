@@ -7,7 +7,7 @@ from pycardrpg.scene_system import Scene
 from pycardrpg.event_system import inject_user_event
 from pycardrpg.model.map_generator import MapGenerator
 from pycardrpg.ui.map_view import MapView
-from pycardrpg.ui.test_view import TestView
+from pycardrpg.ui.ui_view import UIView
 
 #
 # The main scene of the game.
@@ -27,7 +27,7 @@ class MainScene(Scene):
         
         # setup the map
         self._setup_map()
-        self._setup_views()
+        self._setup_ui()
         
         # listen for the events we care about
         self.event_system.on(USEREVENT, self.on_end_turn, 'end_turn')
@@ -70,6 +70,11 @@ class MainScene(Scene):
         self.map_view = MapView(800, 600, self.event_system, self.entity_system, self.map)
         self.map_view.load({})
         self.render_system.add(self.map_view.get_sprites(), layer=0)
+
+    def _setup_ui(self):
+        self.ui_view = UIView(800, 600, self.event_system, self.entity_system, self.map)
+        self.ui_view.load({})
+        self.render_system.add(self.ui_view.get_sprites())
 
     def _setup_views(self):
         pass

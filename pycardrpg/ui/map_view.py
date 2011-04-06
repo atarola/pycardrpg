@@ -27,7 +27,7 @@ class MapView(View):
         self.event_system.on(KEYUP, self.on_keyup)
 
     def unload(self):
-        self.event_system.remove(KEYUP, self.on_keyup)
+        pass
         
     def get_sprites(self):
         if self.map_sprite is None:

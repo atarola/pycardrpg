@@ -44,6 +44,10 @@ A unit has 5 Action Cards in its' hand, of which they can play one each turn. On
 
 When the Action Deck is empty, the cards in the Discard Pile are shuffled and put into the Action Deck.
 
+h2. TODO
+
+* Contemplate making all the systems singletons, removing the need for passing them around.
+
 h2. Special Thanks
 
 Special thanks goes out to Squidi.net for putting up a bunch of "game ideas":http://www.squidi.net/three, and for "The Free Pixel Project":http://www.squidi.net/pixel. 
