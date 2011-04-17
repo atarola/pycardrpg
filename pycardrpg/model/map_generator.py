@@ -3,19 +3,19 @@
 import os
 import yaml
 
+
+
 from pycardrpg.model.level_map import LevelMap, TileTypes
-from pycardrpg.model.unit_repository import UnitRepository
+from pycardrpg.model.unit_repository import unit_repository
+from pycardrpg.model.card import card_repository
 
 #
 # Map Generator
 #
 
+# TODO: properly
 class MapGenerator():
-    
-    def __init__(self, entity_system):
-        self.entity_system = entity_system
-        self.unit_repository = UnitRepository(entity_system)
-    
+
     def generate(self):
         level_map = LevelMap(16, 16)
         
@@ -50,7 +50,7 @@ class MapGenerator():
 
     def _create_enemies(self, level_map):
         pos = (9, 11)
-        enemy = self.unit_repository.create_from_template("Skeleton")
+        enemy = unit_repository.create_from_template("Skeleton")
         enemy.set("RenderComponent", "pos", pos)
 
     def _select_tiles(self, level_map):
@@ -61,10 +61,14 @@ class MapGenerator():
     
     def _create_player(self, level_map):
         pos = (2, 2)
-        player = self.unit_repository.create_from_template("Player")
+        player = unit_repository.create_from_template("Player")
         player.set("RenderComponent", "pos", pos)
         fov_radius = player.get("UnitComponent", 'fov_radius')   
         level_map.get_fov_tiles(pos, fov_radius).seen = True
+        
+        deck = player.get("UnitComponent", 'deck')
+        deck.add_card(card_repository.get_action_card('Attack'))
+        deck.fill_hand()
 
 #
 # Given a position, return the proper tile to put there.

@@ -3,17 +3,19 @@
 import pygame
 from pygame.locals import *
 
-from pycardrpg.scene_system import Scene
-from pycardrpg.event_system import inject_user_event
+from pyengine.scene_system import Scene
+from pyengine.event_system import event_system, inject_user_event
+from pyengine.render_system import render_system
+
+from pycardrpg.controller import ActionCardController, MoveController
 from pycardrpg.model.map_generator import MapGenerator
-from pycardrpg.ui.map_view import MapView
-from pycardrpg.ui.ui_view import UIView
+from pycardrpg.view.map_sprite import MapSprite
+from pycardrpg.view.ui import UI
 
 #
 # The main scene of the game.
 #
 
-# TODO: extract view handling code into it's own class
 class MainScene(Scene):
     
     def __init__(self):
@@ -25,14 +27,18 @@ class MainScene(Scene):
         self.views = {}
         self.current_view = None
         
+        self.controllers = []
+        
         # setup the map
-        self._setup_map()
-        self._setup_ui()
+        self._setup_model()
+        self._setup_controllers()
+        self._setup_view()
         
         # listen for the events we care about
-        self.event_system.on(USEREVENT, self.on_end_turn, 'end_turn')
-        self.event_system.on(USEREVENT, self.on_switch_view, 'switch_view')
-        self.event_system.on(USEREVENT, self.on_remove_view, 'remove_view')
+        event_system.on(self.on_end_turn, USEREVENT, 'end_turn')
+        event_system.on(self.on_switch_view, USEREVENT, 'switch_view')
+        event_system.on(self.on_remove_view, USEREVENT, 'remove_view')
+        event_system.on(self.on_map_changed, USEREVENT, 'map_changed')
 
     def on_update(self, surface):
         # process any pending events
@@ -52,30 +58,33 @@ class MainScene(Scene):
     def on_end_turn(self, data):
         self.player_turn = False
         
+    def on_map_changed(self, data):
+        self.map_sprite.changed = True
+        
     def on_switch_view(self, data):
         if self.current_view is not None:
             self.on_remove_view(data)
         
         self.current_view = self.views[data['view']]
         self.current_view.load(data)
-        self.render_system.add(self.current_view.get_sprites(), layer=2)
+        render_system.add(self.current_view.get_sprites(), layer=2)
 
     def on_remove_view(self, data):
         self.current_view.unload()
         self.current_view = None
-        self.render_system.remove_sprites_of_layer(2)
+        render_system.remove_sprites_of_layer(2)
 
-    def _setup_map(self):
-        self.map = MapGenerator(self.entity_system).generate()      
-        self.map_view = MapView(800, 600, self.event_system, self.entity_system, self.map)
-        self.map_view.load({})
-        self.render_system.add(self.map_view.get_sprites(), layer=0)
+    def _setup_model(self):
+        self.map = MapGenerator().generate()      
 
-    def _setup_ui(self):
-        self.ui_view = UIView(800, 600, self.event_system, self.entity_system, self.map)
-        self.ui_view.load({})
-        self.render_system.add(self.ui_view.get_sprites())
+    def _setup_controllers(self):
+        self.controllers.append(MoveController(self.map))
+        self.controllers.append(ActionCardController(self.map))
 
-    def _setup_views(self):
-        pass
+    def _setup_view(self):
+        self.map_sprite = MapSprite(800, 600, self.map)
+        render_system.add(self.map_sprite, layer=0)
+        
+        self.ui_view = UI(800, 600)
+        render_system.add(self.ui_view.get_sprites())
 

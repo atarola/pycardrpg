@@ -91,6 +91,16 @@ class UnitComponent(object):
     @property
     def ap_recharge(self):
         return self.dexterity + self.stamina
+
+    @property
+    def attack(self):
+        # TODO: make more complicated
+        return self.get_modifier('attack')
+        
+    @property
+    def defense(self):
+        # TODO: make more complicated
+        return self.get_modifier('defense')
     
 #
 # A renderable thing
@@ -116,4 +126,16 @@ class PlayerComponent(object):
 
 class NpcComponent(object):
     pass
+
+#
+# Component Mapping
+# Used to reference the component classes by name
+#
+
+mapping = {
+    "UnitComponent": UnitComponent,
+    "RenderComponent": RenderComponent,
+    "PlayerComponent": PlayerComponent,
+    "NpcComponent": NpcComponent
+}
 

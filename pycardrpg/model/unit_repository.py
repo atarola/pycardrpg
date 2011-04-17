@@ -3,8 +3,10 @@
 import os
 import yaml
 
+from pyengine.entity_system import entity_system
+
 from pycardrpg.model.card import card_repository
-from pycardrpg.model.component import UnitComponent, RenderComponent, PlayerComponent, NpcComponent
+from pycardrpg.model.component import mapping
 
 #
 # Repository for cards, created from the template 
@@ -12,15 +14,7 @@ from pycardrpg.model.component import UnitComponent, RenderComponent, PlayerComp
 
 class UnitRepository(object):
 
-    mapping = {
-        "UnitComponent": UnitComponent,
-        "RenderComponent": RenderComponent,
-        "PlayerComponent": PlayerComponent,
-        "NpcComponent": NpcComponent
-    }
-
-    def __init__(self, entity_system):
-        self.entity_system = entity_system
+    def __init__(self):
         self.card_repository = card_repository
         
         # get our cards from the data file
@@ -29,7 +23,7 @@ class UnitRepository(object):
         self.templates = yaml.load(data)
         
     def create_from_template(self, name):
-        entity = self.entity_system.new(name)    
+        entity = entity_system.new(name)    
         template = self.templates.get(name, {})
      
         components = template.get("components", {})
@@ -43,7 +37,7 @@ class UnitRepository(object):
     def _setup_components(self, entity, components):
         for key in components.keys():
             # get this component and add it to the entity
-            component = UnitRepository.mapping[key]()
+            component = mapping[key]()
             entity.add_component(component)
             
             # add any properties to the components, if needed
@@ -72,4 +66,10 @@ class UnitRepository(object):
                 name = item["content"]
                 card = self.card_repository.get_skill_card(name)
                 unit_component.add_skill_card(card)
+
+#
+# Singleton Unit Repository
+#
+
+unit_repository = UnitRepository()
 

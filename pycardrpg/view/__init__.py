@@ -1,4 +1,4 @@
-#!/user/bin/env python
+#!/usr/bin/env python
 
 import os
 
@@ -13,13 +13,7 @@ def get_image(file):
     filename = _get_filename(file)
 
     try:
-        image = pygame.image.load(filename)
-        
-        if image.get_alpha() is None:
-            image = image.convert()
-        else:
-            image = image.convert_alpha()
-            
+        image = pygame.image.load(filename).convert_alpha()            
     except pygame.error, message:
         raise Exception('Cannot load image: %s.  Message: %s' % (filename, message))
         

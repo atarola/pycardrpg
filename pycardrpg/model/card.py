@@ -10,11 +10,14 @@ import yaml
 
 class Card(object):
     
-    def __init__(self, name, tags=[], modifiers={}, events=[]):
+    def __init__(self, name, tags=[], modifiers={}, commands=[]):
         self.name = name
         self.tags = set(tags)
         self.modifiers = modifiers
-        self.events = events
+        self.commands = commands
+        
+    def __repr__(self):
+        return "Card[name: %s, tags: %s, mods: %s, commands: %s]" % (self.name, self.tags, self.modifiers, self.commands)
 
 #
 # A Deck of Cards
@@ -28,6 +31,9 @@ class Deck(object):
         self.pile = []
         self.hand = []
 
+    def add_card(self, card):
+        self.cards.append(card)
+    
     def discard(self, card):
         self.hand.remove(card)
         self.pile.append(card)
@@ -47,7 +53,10 @@ class Deck(object):
                 self.reset_deck() 
 
             # add the next card to the hand
-            self.hand.append(self.cards.pop())
+            if len(self.cards) > 0:
+                self.hand.append(self.cards.pop())
+            else:
+                break
 
 #
 # A slot with tags.  For a card to fit into a slot it must have
@@ -109,6 +118,7 @@ class CardRepository(object):
     def __init__(self):
         self.equipment = {}
         self.skills = {}
+        self.actions = {}
 
         # get our cards from the data file
         filename = os.path.join('pycardrpg', 'data', 'templates_cards.yaml')
@@ -124,12 +134,20 @@ class CardRepository(object):
         for item in cards['skills']:
             card = Card(**item)
             self.skills[card.name] = card
+            
+        # create the action cards
+        for item in cards['actions']:
+            card = Card(**item)
+            self.actions[card.name] = card
 
     def get_equipment_card(self, name):
         return self.equipment.get(name, None)
 
     def get_skill_card(self, name):
         return self.skills.get(name, None)
+        
+    def get_action_card(self, name):
+        return self.actions.get(name, None)
 
 #
 # Singleton Instance

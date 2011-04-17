@@ -2,7 +2,7 @@
 
 import pygame
 
-from pycardrpg.ui.image_loader import get_image
+from pycardrpg.view import get_image
 
 #
 # Sprite Sheet Handler.  Cuts up and caches sprite sheet elements.

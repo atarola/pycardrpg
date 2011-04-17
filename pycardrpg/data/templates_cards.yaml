@@ -41,11 +41,10 @@ skills:
 
 actions:
   - name: Attack
-    tags: ["Action"]
-    modifiers:
-        ~
-    events:
-        SelectTargetEvent:
+    tags: ["Action", "Attack"]
+    commands:
+        TargetCommand:
+            distance: 1
+        DamageCommand:
             ~
-        AttackEvent:
-            ~
+

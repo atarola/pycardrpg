@@ -3,3 +3,8 @@
 *.pyo
 .project
 .pydevproject
+.DS_Store
+
+PyCardRPG.egg-info
+build
+dist
