@@ -46,7 +46,10 @@ When the Action Deck is empty, the cards in the Discard Pile are shuffled and pu
 
 h2. TODO
 
-* Contemplate making all the systems singletons, removing the need for passing them around.
+* Implement logging system.  With all the async stuff flying around, we'll need it to help get a handle on bugs.
+* Implement showing which command cards are in the players hand.
+* Add way to provide feedback to the user inside commands.
+* Add verifier to end of update loop, which should handle events like unit death.
 
 h2. Special Thanks
 

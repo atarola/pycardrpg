@@ -14,6 +14,7 @@ from pycardrpg.view.map_sprite import MapSprite
 # Choose a target and add it to the memory
 #
 
+# TODO: Handle distance.
 class TargetCommand(ScriptEvent):
     
     def __init__(self, **kwargs):
@@ -38,8 +39,7 @@ class TargetCommand(ScriptEvent):
             else:
                 self.pos = None
     
-    # TOOD: think of a better way to do this, having the commands
-    # talk to the sprites directly is kinda hacky
+    # TOOD: think of a better way to do this
     def handle_mouse_up(self, data):
         sprite = data.get('sprite', None)
 

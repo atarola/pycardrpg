@@ -101,6 +101,9 @@ class UnitComponent(object):
     def defense(self):
         # TODO: make more complicated
         return self.get_modifier('defense')
+        
+    def __repr__(self):
+        return 'UnitComponent[hp: %s/%s, ap: %s/%s]' % (self.cur_hp, self.max_hp, self.cur_ap, self.max_ap)
     
 #
 # A renderable thing
@@ -120,7 +123,9 @@ class RenderComponent(object):
 #
 
 class PlayerComponent(object):
-    pass
+    
+    def __repr__(self):
+        return 'PlayerComponent[]'
     
 
 #
@@ -128,7 +133,9 @@ class PlayerComponent(object):
 #
 
 class NpcComponent(object):
-    pass
+    
+    def __repr__(self):
+        return 'NpcComponent[]'
 
 #
 # Component Mapping

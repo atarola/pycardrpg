@@ -1,4 +1,0 @@
-
-h1. Action Card Walkthrough
-
-h2. Attack Example
