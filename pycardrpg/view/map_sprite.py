@@ -116,10 +116,10 @@ class Camera(object):
     def to_array(self, pos):
         x, y = pos
         a, b = Camera.CHAR_SIZE
-        
-        tx = abs(x - self.rect.left) / a
-        ty = abs(x - self.rect.top) / b
-        
+  
+        tx = (x / a) + self.rect.left
+        ty = (y / b) + self.rect.top
+
         return (tx, ty)
 
     def to_pixels(self, pos):

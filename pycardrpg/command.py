@@ -30,7 +30,13 @@ class TargetCommand(ScriptEvent):
             self.set_handler = True
         
         if self.pos is not None:
-            pass
+            target = entity_system.find_one('RenderComponent', conditions={'RenderComponent#pos': self.pos})
+            
+            if target is not None:
+                memory['target'] = target
+                self.callback(self)
+            else:
+                self.pos = None
     
     # TOOD: think of a better way to do this, having the commands
     # talk to the sprites directly is kinda hacky
@@ -40,7 +46,7 @@ class TargetCommand(ScriptEvent):
         if not isinstance(sprite, MapSprite):
             return
         
-        char_pos = sprite.to_array(data['pos'])
+        self.pos = sprite.to_array(data['pos'])
             
 #
 # DamageCommand
@@ -53,9 +59,8 @@ class DamageCommand(ScriptEvent):
         callback = kwargs.get('callback', None)
         ScriptEvent.__init__(self, command=True, callback=callback)
     
-    # TODO: handle death 
     def update(self, memory):
-        source = memory.get('unit', None)
+        source = memory.get('source', None)
         target = memory.get('target', None)
 
         if source is None or target is None:

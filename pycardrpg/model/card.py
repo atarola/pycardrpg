@@ -37,6 +37,7 @@ class Deck(object):
     def discard(self, card):
         self.hand.remove(card)
         self.pile.append(card)
+        self.fill_hand()
 
     def shuffle(self):
         random.shuffle(self.cards)

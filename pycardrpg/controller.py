@@ -85,7 +85,7 @@ class ActionCardController(object):
                 
         # setup the script
         memory = self._get_default_memory()
-        script = Script(memory=memory, callback=self.on_script_done)
+        script = Script(memory=memory)
         for name, kwargs in card.commands.items():
             if kwargs is None:
                 kwargs = {}

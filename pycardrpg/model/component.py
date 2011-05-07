@@ -111,6 +111,9 @@ class RenderComponent(object):
     def __init__(self):
         self.pos = (0, 0)
         self.index = 0
+        
+    def __repr__(self):
+        return 'RenderComponent[pos: %s, index: %s]' % (self.pos, self.index)
 
 #
 # Player Component
