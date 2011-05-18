@@ -52,6 +52,8 @@ class UnitRepository(object):
         equipment = slots.get("equipment", [])
         for item in equipment:
             tags = item.get("tags", [])
+            
+            # TODO: Fix
             unit_component.add_equipment_slot(tags)
             if "content" in item.keys():
                 name = item["content"]
@@ -61,6 +63,8 @@ class UnitRepository(object):
         skills = slots.get("skills", [])
         for item in skills:
             tags = item.get("tags", [])
+            
+            # TODO: Fix
             unit_component.add_skill_slot(tags)
             if "content" in item.keys():
                 name = item["content"]

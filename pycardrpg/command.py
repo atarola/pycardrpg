@@ -73,6 +73,7 @@ class DamageCommand(ScriptEvent):
         if damage > 0:
             hp = target.get('UnitComponent', 'cur_hp')
             target.set('UnitComponent', 'cur_hp', hp - damage)
+            print damage
 
 #
 # Command Mapping
