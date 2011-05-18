@@ -6,7 +6,7 @@ import pygame
 from pygame.locals import *
 from pygame.sprite import Sprite
 
-from pyengine.entity_system import entity_system
+from pycardrpg.engine.entity_system import entity_system
 
 from pycardrpg.view.sprite_sheet import SpriteSheet
 

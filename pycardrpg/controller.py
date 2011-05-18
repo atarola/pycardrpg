@@ -3,9 +3,9 @@
 import pygame
 from pygame.locals import *
 
-from pyengine.entity_system import entity_system
-from pyengine.event_system import event_system, inject_user_event
-from pyengine.script_system import script_system, Script
+from pycardrpg.engine.entity_system import entity_system
+from pycardrpg.engine.event_system import event_system, inject_user_event
+from pycardrpg.engine.script_system import script_system, Script
 
 from pycardrpg.command import mapping
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-from pyengine.application import Application
-from pyengine.scene_system import scene_system
+from pycardrpg.engine.application import Application
+from pycardrpg.engine.scene_system import scene_system
 
 from pycardrpg.main_scene import MainScene
 

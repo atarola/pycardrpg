@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-from pyengine.event_system import event_system
-from pyengine.render_system import render_system
-from pyengine.script_system import script_system
+from pycardrpg.engine.event_system import event_system
+from pycardrpg.engine.render_system import render_system
+from pycardrpg.engine.script_system import script_system
 
 #
 # Uses the strategy pattern to encapsulate different 

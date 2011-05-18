@@ -3,7 +3,7 @@
 import os
 import yaml
 
-from pyengine.entity_system import entity_system
+from pycardrpg.engine.entity_system import entity_system
 
 from pycardrpg.model.card import card_repository
 from pycardrpg.model.component import mapping

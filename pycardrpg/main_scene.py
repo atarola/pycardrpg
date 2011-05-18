@@ -3,10 +3,10 @@
 import pygame
 from pygame.locals import *
 
-from pyengine.scene_system import Scene
-from pyengine.event_system import event_system, inject_user_event
-from pyengine.render_system import render_system
-from pyengine.script_system import script_system
+from pycardrpg.engine.scene_system import Scene
+from pycardrpg.engine.event_system import event_system, inject_user_event
+from pycardrpg.engine.render_system import render_system
+from pycardrpg.engine.script_system import script_system
 
 from pycardrpg.controller import ActionCardController, MoveController
 from pycardrpg.model.map_generator import MapGenerator

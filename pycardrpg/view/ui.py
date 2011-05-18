@@ -3,7 +3,7 @@
 import pygame
 from pygame.locals import *
 
-from pyengine.event_system import event_system, inject_user_event
+from pycardrpg.engine.event_system import event_system, inject_user_event
 
 from pycardrpg.view import get_image
 
