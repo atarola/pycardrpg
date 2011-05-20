@@ -50,7 +50,6 @@ h2. TODO
 * Implement showing which command cards are in the players hand.
 * Add way to provide feedback to the user inside commands.
 * Add verifier to end of update loop, which should handle events like unit death.
-* Remove fake view system, add dialog system.  
 * Remove attributes from units, focus on the cards.
 * Map Generation
 * AI

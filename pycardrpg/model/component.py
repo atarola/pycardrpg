@@ -27,7 +27,6 @@ class UnitComponent(object):
         
         # current hit points and action points
         self.cur_hp = self.max_hp
-        self.cur_ap = self.max_ap
     
     def add_equipment_slot(self, tags=[]):
         self.equipment.add_slot(tags)
@@ -64,6 +63,11 @@ class UnitComponent(object):
 
         return modifier
 
+    def do_hp_recharge(self):
+        self.cur_hp += self.hp_recharge
+        if self.cur_hp > self.max_hp:
+            self.cur_hp = self.max_hp
+
     @property
     def strength(self):
         return self.base_strength + self.get_modifier("strength")
@@ -82,28 +86,24 @@ class UnitComponent(object):
 
     @property
     def max_hp(self):
-        return self.strength + self.stamina * 2
+        return self.hp_recharge * 10
     
     @property
-    def max_ap(self):
-        return self.ap_recharge * 10
-    
-    @property
-    def ap_recharge(self):
-        return self.dexterity + self.stamina
+    def hp_recharge(self):
+        return self.strength + self.stamina
 
     @property
     def attack(self):
         # TODO: make more complicated
-        return self.get_modifier('attack')
+        return self.strength * self.get_modifier('attack')
         
     @property
     def defense(self):
         # TODO: make more complicated
-        return self.get_modifier('defense')
+        return self.stamina * self.get_modifier('defense')
         
     def __repr__(self):
-        return 'UnitComponent[hp: %s/%s, ap: %s/%s]' % (self.cur_hp, self.max_hp, self.cur_ap, self.max_ap)
+        return 'UnitComponent[hp: %s/%s]' % (self.cur_hp, self.max_hp)
     
 #
 # A renderable thing

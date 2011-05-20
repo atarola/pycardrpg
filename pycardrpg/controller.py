@@ -68,6 +68,7 @@ class MoveController(object):
 # Action Card Controller, handle using action cards
 #
 
+# TODO: handle reentry into on_action_card
 class ActionCardController(object):
 
     def __init__(self, map):
@@ -112,4 +113,3 @@ class ActionCardController(object):
         }
         
         return memory
-

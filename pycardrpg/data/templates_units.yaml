@@ -25,10 +25,10 @@ Player:
 Skeleton:
   components:
     UnitComponent:
-      base_strength: 4
+      base_strength: 1
       base_intelligence: 1
-      base_dexterity: 2
-      base_stamina: 4
+      base_dexterity: 1
+      base_stamina: 1
     RenderComponent:
       index: 30
     NpcComponent:

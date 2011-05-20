@@ -15,7 +15,10 @@ class ScriptSystem(object):
     def add(self, name, script, callback):
         script.callback = self.on_script_done
         self.scripts[name] = (script, callback)
-        
+    
+    def remove(self, name):
+        self.on_script_done(name)
+    
     def update(self):
         for script, callback in self.scripts.values():
             script.update()

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import math
 import pygame
 
 #
@@ -79,6 +80,10 @@ class LevelMap(object):
     def get_fov_tiles(self, pos, radius):
         positions = self.fov.do_fov(pos, radius)
         return TileList([self.get(foo) for foo in positions])
+    
+    def in_distance(self, source, target, radius):
+        positions = self.fov.do_fov(source, radius)
+        return target in positions
     
     def __iter__(self):
         for row in self.tiles:

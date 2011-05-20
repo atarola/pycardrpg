@@ -14,7 +14,6 @@ from pycardrpg.view.map_sprite import MapSprite
 # Choose a target and add it to the memory
 #
 
-# TODO: Handle distance.
 class TargetCommand(ScriptEvent):
     
     def __init__(self, **kwargs):
@@ -31,13 +30,20 @@ class TargetCommand(ScriptEvent):
             self.set_handler = True
         
         if self.pos is not None:
+            # get our target
             target = entity_system.find_one('RenderComponent', conditions={'RenderComponent#pos': self.pos})
-            
-            if target is not None:
-                memory['target'] = target
-                self.callback(self)
-            else:
+            if target is None:
                 self.pos = None
+                return
+            
+            # verify the target is equal or closer than the max distance
+            source_pos = memory['source'].get('RenderComponent', 'pos')
+            if memory['map'].in_distance(source_pos, self.pos, self.distance):
+                self.pos = None
+                return
+            
+            memory['target'] = target
+            self.callback(self)
     
     # TOOD: think of a better way to do this
     def handle_mouse_up(self, data):
@@ -73,7 +79,8 @@ class DamageCommand(ScriptEvent):
         if damage > 0:
             hp = target.get('UnitComponent', 'cur_hp')
             target.set('UnitComponent', 'cur_hp', hp - damage)
-            print damage
+            print "old hp: %s" % hp
+            print "damage: %s" % damage
 
 #
 # Command Mapping

@@ -9,6 +9,7 @@ from pycardrpg.engine.render_system import render_system
 from pycardrpg.engine.script_system import script_system
 
 from pycardrpg.controller import ActionCardController, MoveController
+from pycardrpg.simulation import Simulation
 from pycardrpg.model.map_generator import MapGenerator
 from pycardrpg.view.map_sprite import MapSprite
 from pycardrpg.view.ui import UI
@@ -24,33 +25,25 @@ class MainScene(Scene):
         
         self.events = []
         self.player_turn = True
-
-        self.views = {}
-        self.current_view = None
         
-        self.controllers = []
-        
-        # setup the map
         self._setup_model()
         self._setup_controllers()
         self._setup_view()
         
         # listen for the events we care about
         event_system.on(self.on_end_turn, USEREVENT, 'end_turn')
-        event_system.on(self.on_switch_view, USEREVENT, 'switch_view')
-        event_system.on(self.on_remove_view, USEREVENT, 'remove_view')
         event_system.on(self.on_map_changed, USEREVENT, 'map_changed')
 
     def on_update(self, surface):
-        # process any pending events
         if self.player_turn:
+            # process any pending events
             if self.events:
                 event = self.events.pop()
-                Scene.on_event(self, event)
+                Scene.on_event(self, event)            
         else:
-            print 'Computer Turn'
+            self.simulation.update()
             self.player_turn = True
-        
+
         Scene.on_update(self, surface)
 
     def on_event(self, event):
@@ -61,26 +54,14 @@ class MainScene(Scene):
         
     def on_map_changed(self, data):
         self.map_sprite.changed = True
-        
-    def on_switch_view(self, data):
-        if self.current_view is not None:
-            self.on_remove_view(data)
-        
-        self.current_view = self.views[data['view']]
-        self.current_view.load(data)
-        render_system.add(self.current_view.get_sprites(), layer=2)
-
-    def on_remove_view(self, data):
-        self.current_view.unload()
-        self.current_view = None
-        render_system.remove_sprites_of_layer(2)
 
     def _setup_model(self):
         self.map = MapGenerator().generate()      
 
     def _setup_controllers(self):
-        self.controllers.append(MoveController(self.map))
-        self.controllers.append(ActionCardController(self.map))
+        self.move_controller = MoveController(self.map)
+        self.action_card_controller = ActionCardController(self.map)
+        self.simulation = Simulation(self.map)
 
     def _setup_view(self):
         self.map_sprite = MapSprite(800, 600, self.map)

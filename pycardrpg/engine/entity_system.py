@@ -15,6 +15,15 @@ class EntitySystem(object):
         entity = Entity(name, self)
         self.entities.append(entity)
         return entity
+    
+    # remove all traces of an entity
+    def remove(self, entity):
+        for value in self.components.values():
+            if entity in value:
+                del value[entity]
+                
+        if entity in self.entities:
+            self.entities.remove(entity)
 
     # find an entity based on a set of criteria
     def find(self, component, conditions={}):
@@ -101,13 +110,8 @@ class Entity(object):
         return self.entity_system.get_component(self, component_name)
         
     def __repr__(self):
-        output = "Entity[name: %s, components: " % self.name
-        
-        for component in self.entity_system.get_components(self):
-             output += "%s " % component
-        
-        output += "]"
-        return output
+        strings = ", ".join([str(item) for item in self.entity_system.get_components(self)])
+        return "Entity[name: %s, components: %s]" % (self.name, strings)
 
 #
 # Singleton EntitySystem
