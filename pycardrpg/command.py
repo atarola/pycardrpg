@@ -34,12 +34,14 @@ class TargetCommand(ScriptEvent):
             target = entity_system.find_one('RenderComponent', conditions={'RenderComponent#pos': self.pos})
             if target is None:
                 self.pos = None
+                self.callback(self)
                 return
             
             # verify the target is equal or closer than the max distance
             source_pos = memory['source'].get('RenderComponent', 'pos')
             if memory['map'].in_distance(source_pos, self.pos, self.distance):
                 self.pos = None
+                self.callback(self)
                 return
             
             memory['target'] = target

@@ -45,5 +45,4 @@ class Application(object):
             
     def _handle_updates(self):
         scene_system.on_update(self.surface)
-        
 

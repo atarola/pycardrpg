@@ -5,14 +5,15 @@ from pygame.locals import *
 
 from pycardrpg.engine.scene_system import Scene
 from pycardrpg.engine.event_system import event_system, inject_user_event
-from pycardrpg.engine.render_system import render_system
+from pycardrpg.engine.render_system import render_system, LayerTypes
 from pycardrpg.engine.script_system import script_system
 
 from pycardrpg.controller import ActionCardController, MoveController
 from pycardrpg.simulation import Simulation
 from pycardrpg.model.map_generator import MapGenerator
 from pycardrpg.view.map_sprite import MapSprite
-from pycardrpg.view.ui import UI
+from pycardrpg.view.sidebar import Sidebar
+from pycardrpg.view.test_window import TestWindow
 
 #
 # The main scene of the game.
@@ -33,6 +34,7 @@ class MainScene(Scene):
         # listen for the events we care about
         event_system.on(self.on_end_turn, USEREVENT, 'end_turn')
         event_system.on(self.on_map_changed, USEREVENT, 'map_changed')
+        event_system.on(self.on_show_gui, USEREVENT, 'show_gui')
 
     def on_update(self, surface):
         if self.player_turn:
@@ -54,6 +56,15 @@ class MainScene(Scene):
         
     def on_map_changed(self, data):
         self.map_sprite.changed = True
+        
+    def on_show_gui(self, data):
+        name = data.get('name', None)
+        
+        guis = {
+            'test_window': TestWindow
+        }
+        
+        guis[name]().run()
 
     def _setup_model(self):
         self.map = MapGenerator().generate()      
@@ -65,8 +76,8 @@ class MainScene(Scene):
 
     def _setup_view(self):
         self.map_sprite = MapSprite(800, 600, self.map)
-        render_system.add(self.map_sprite, layer=0)
+        render_system.add(self.map_sprite, layer=LayerTypes.MAP_LAYER)
         
-        self.ui_view = UI(800, 600)
-        render_system.add(self.ui_view.get_sprites())
+        self.sidebar_view = Sidebar(800, 600)
+        render_system.add(self.sidebar_view, layer=LayerTypes.HUD_LAYER)
 

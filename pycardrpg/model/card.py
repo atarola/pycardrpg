@@ -4,6 +4,8 @@ import os
 import random
 import yaml
 
+from pycardrpg.engine.event_system import event_system, inject_user_event
+
 #
 # Base class for all cards
 #
@@ -32,6 +34,7 @@ class Deck(object):
         self.hand = []
 
     def add_card(self, card):
+        inject_user_event('add_card', card=card)
         self.cards.append(card)
     
     def discard(self, card):
@@ -43,11 +46,13 @@ class Deck(object):
         random.shuffle(self.cards)
 
     def reset_deck(self):
+        inject_user_event('deck_changed')
         self.cards.extend(self.pile)
         self.pile = []
         self.shuffle()
 
     def fill_hand(self):
+        inject_user_event('deck_changed')
         while len(self.hand) < self.hand_size:
             # if there are no cards in the good, reset
             if len(self.cards) == 0:

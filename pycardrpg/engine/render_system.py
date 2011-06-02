@@ -22,8 +22,21 @@ class RenderSystem(LayeredUpdates):
             return None
 
 #
+# Layer Types
+#
+
+class LayerTypes(object):
+    
+    class LayerType(object):
+        def __init__(self, id):
+            self.id = id
+    
+    MAP_LAYER = LayerType(1)
+    HUD_LAYER = LayerType(2)
+    UI_LAYER = LayerType(3)
+
+#
 # singleton render system
 #
 
 render_system = RenderSystem()
-

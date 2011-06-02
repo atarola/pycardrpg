@@ -38,7 +38,6 @@ class Simulation(object):
         
         if player.get("UnitComponent", 'cur_hp') < 0:
             print "Killed: %s" % player
-            entity_system.remove(player)
         
     def begin_player_turn(self):
         player = entity_system.find_one("PlayerComponent")

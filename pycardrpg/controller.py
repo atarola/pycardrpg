@@ -76,6 +76,8 @@ class ActionCardController(object):
         event_system.on(self.on_action_card, USEREVENT, 'action_card')
 
     def on_action_card(self, data):
+        print "ActionCardController.on_action_card(%s)" % data
+        
         # stop the current event handlers from firing, by pushing a new
         # set into the event handler
         event_system.push()
@@ -98,6 +100,8 @@ class ActionCardController(object):
         script_system.add('action_cards', script, self.on_script_done)
         
     def on_script_done(self, script):
+        print "ActionCardController.on_script_done(%s)" % script
+        
         # bring back the original event handlers
         event_system.pop()
         inject_user_event('map_changed')
