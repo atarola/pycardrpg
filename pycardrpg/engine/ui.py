@@ -7,7 +7,7 @@ from pygame.locals import *
 from pygame.sprite import Sprite
 
 from pycardrpg.engine.event_system import event_system, EventSystem
-from pycardrpg.engine.render_system import render_system
+from pycardrpg.engine.render_system import render_system, LayerTypes, SpriteSheet
 
 #
 # Panel
@@ -23,10 +23,11 @@ class Panel(Sprite):
         self.rect = pygame.Rect(pos, size)
         
         # panel look and feel options
+        self.font = SpriteSheet('nebulas_ray.png', rows=1, columns=40, width=16, height=16)
         self.background_color = pygame.Color("#333333ff")
         self.border_color = pygame.Color("#666666ff")
         self.border_size = 1
-
+        
         # panel state
         self.mousex = 0
         self.mousey = 0
@@ -103,6 +104,7 @@ class ModalWindow(Panel):
     def run(self):
         clock = pygame.time.Clock()
         surface = pygame.display.get_surface()
+        render_system.add(self, layer=LayerTypes.UI_LAYER)
         
         while not self.stop:
             self.handle_events()
@@ -131,20 +133,34 @@ class ModalWindow(Panel):
 
 class Widget(object):
 
+    CHARACTERS = """1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!?"'"""
+
     def region_hit(self, ui, pos, size):
         rect = pygame.Rect(pos, size)
         return rect.collidepoint(ui.mousex, ui.mousey)
     
-    def draw_rect(self, ui, pos, size, color):
-        rect = pygame.Rect(pos, size)
-        ui.image.fill(color, rect)
-
     def handle_hot(self, ui, id, pos, size):
         if self.region_hit(ui, pos, size):
             ui.hotitem = id
             if ui.activeitem == 0 and ui.mousedown:
                 ui.activeitem = id
-                
+    
+    def draw_rect(self, ui, pos, size, color):
+        rect = pygame.Rect(pos, size)
+        ui.image.fill(color, rect)
+    
+    def draw_string(self, ui, pos, string):
+        x, y = pos
+        
+        for char in string:
+            self.draw_character(ui, (x, y), char)
+            x += 16
+    
+    def draw_character(self, ui, pos, char):
+        index = Widget.CHARACTERS.index(char.upper())
+        img = ui.font[index]
+        ui.image.blit(img, pos)
+        
     def translate_pos(self, pos, x, y):
         a, b = pos
         return (a + x, b + y)
@@ -162,6 +178,7 @@ class Button(Widget):
         self.shadow_color = pygame.Color("#111111ff")
         self.shadow_offset = 2
         self.active_offset = 2
+        self.text_offset = 4
     
     def __call__(self, ui, id, pos, size, text):
         self.handle_hot(ui, id, pos, size)
@@ -178,20 +195,29 @@ class Button(Widget):
         if ui.hotitem != id:
             # button is not "hot", but may be "active"
             self.draw_rect(ui, pos, size, self.button_color)
+            self.draw_text(ui, pos, text)
             return
 
         if ui.activeitem == id:
             # button is both "hot" and "active"
             active_pos = self.translate_pos(pos, self.active_offset, self.active_offset)
             self.draw_rect(ui, pos, size, self.hot_color)
+            self.draw_text(ui, pos, text)
             return
             
         # button is just "hot"
         self.draw_rect(ui, pos, size, self.hot_color)
-       
+        self.draw_text(ui, pos, text)
+
+    # draw the text   
+    def draw_text(self, ui, pos, text):
+        text_pos = self.translate_pos(pos, self.text_offset, self.text_offset)
+        self.draw_string(ui, text_pos, text)
+      
     # has the button been clicked?
     def is_clicked(self, ui, id):
         is_clicked = ui.mousedown == 0
         is_clicked = is_clicked and ui.hotitem == id
         is_clicked = is_clicked and ui.activeitem == id
         return is_clicked
+

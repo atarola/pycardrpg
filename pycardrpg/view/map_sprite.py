@@ -7,8 +7,7 @@ from pygame.locals import *
 from pygame.sprite import Sprite
 
 from pycardrpg.engine.entity_system import entity_system
-
-from pycardrpg.view.sprite_sheet import SpriteSheet
+from pycardrpg.engine.render_system import SpriteSheet
 
 #
 # Map Sprite
