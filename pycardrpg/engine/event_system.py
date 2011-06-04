@@ -14,7 +14,6 @@ class EventSystem(object):
     
     def __init__(self):
         self.signals = {}
-        self.stack = []
     
     def process(self, event, sprite=None):
         # setup the data dictionary
@@ -44,17 +43,6 @@ class EventSystem(object):
     def clear(self, event_type, subtype=None):
         signal = self._get_signal(event_type, subtype)
         signal.clear()
-
-    def push(self):
-        self.stack.append(self.signals)
-        self.signals = {}
-
-    def pop(self):
-        if not self.stack:
-            return
-
-        signals = self.stack.pop()
-        self.signals = signals
 
     def _get_signal(self, event_type, subtype):
         key = self._get_key(event_type, subtype)

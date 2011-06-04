@@ -22,7 +22,6 @@ class SidebarPanel(Panel):
         do_button = Button()
         
         # render the card buttons
-        
         ctr = 0
         deck = self._get_player_deck()
         

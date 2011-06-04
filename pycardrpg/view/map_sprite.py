@@ -7,6 +7,7 @@ from pygame.locals import *
 from pygame.sprite import Sprite
 
 from pycardrpg.engine.entity_system import entity_system
+from pycardrpg.engine.event_system import event_system, inject_user_event
 from pycardrpg.engine.render_system import SpriteSheet
 
 #
@@ -16,6 +17,7 @@ from pycardrpg.engine.render_system import SpriteSheet
 class MapSprite(Sprite):
 
     BLACK = (0, 0, 0)
+    TARGET_COLOR = (255, 0, 0)
 
     def __init__(self, width, height, level_map):
         Sprite.__init__(self)
@@ -34,21 +36,24 @@ class MapSprite(Sprite):
 
         self.image = pygame.Surface((width, height)).convert()
         self.rect = pygame.Rect((0, 0), (width, height))
-        self.changed = True
-
-    def update(self):
-        if not self.changed:
-            return
-
-        self.changed = False
-        self._render_map()
+        self.on_map_changed(None)
         
-    def to_array(self, pos):
-        return self.camera.to_array(pos)
+        event_system.on(self.on_map_changed, USEREVENT, 'map_changed')
+        event_system.on(self.on_mouse_up, MOUSEBUTTONUP)
+        
+    # If we are the sprite under the cursor, do some work.
+    def on_mouse_up(self, data):
+        pos = data.get('pos', None)
+        array_pos = self.camera.to_array(pos)
+        
+        # if there is an entity under the cursor, it needs to be targeted
+        entity = entity_system.find_one('RenderComponent', conditions={'RenderComponent#pos': array_pos})
+        if entity:
+            inject_user_event('select_target', target=entity)
 
     # Render this frame onto the surface, we'll use the painters algorithm
     # and render from back to front
-    def _render_map(self):
+    def on_map_changed(self, data):
         self.image.fill(MapSprite.BLACK)
 
         # move the camera to the player
@@ -87,6 +92,19 @@ class MapSprite(Sprite):
 
     # render a unit
     def _render_unit(self, surface, unit):
+        self._render_unit_background(surface, unit)
+        self._render_unit_sprite(surface, unit)
+        
+    def _render_unit_background(self, surface, unit):
+        pos = unit.get("RenderComponent", "pos")
+        pos = self.camera.to_pixels(pos)
+        
+        # if the unit is the target, draw the targetting square around them
+        if unit.has_component('TargetComponent'):
+            rect = pygame.Rect(pos, Camera.CHAR_SIZE)
+            pygame.draw.rect(surface, MapSprite.TARGET_COLOR, rect, 2)
+        
+    def _render_unit_sprite(self, surface, unit):
         image = self.unit_sprites[unit.get("RenderComponent", "index")]
         pos = unit.get("RenderComponent", "pos")
 

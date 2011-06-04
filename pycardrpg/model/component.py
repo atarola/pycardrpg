@@ -106,7 +106,8 @@ class UnitComponent(object):
         return 'UnitComponent[hp: %s/%s]' % (self.cur_hp, self.max_hp)
     
 #
-# A renderable thing
+# RenderComponent
+# entity is renderable
 #
 
 class RenderComponent(object):
@@ -119,23 +120,34 @@ class RenderComponent(object):
         return 'RenderComponent[pos: %s, index: %s]' % (self.pos, self.index)
 
 #
-# Player Component
+# PlayerComponent
+# entity is the player
 #
 
 class PlayerComponent(object):
     
     def __repr__(self):
-        return 'PlayerComponent[]'
-    
+        return 'PlayerComponent'
 
 #
-# NPC Component
+# NPCComponent
+# entity is an npc
 #
 
 class NpcComponent(object):
     
     def __repr__(self):
-        return 'NpcComponent[]'
+        return 'NpcComponent'
+        
+#
+# TargetComponent
+# entity is the selected target
+#
+
+class TargetComponent(object):
+    
+    def __repr__(self):
+        return "TargetComponent"
 
 #
 # Component Mapping
@@ -146,6 +158,7 @@ mapping = {
     "UnitComponent": UnitComponent,
     "RenderComponent": RenderComponent,
     "PlayerComponent": PlayerComponent,
-    "NpcComponent": NpcComponent
+    "NpcComponent": NpcComponent,
+    "TargetComponent": TargetComponent
 }
 

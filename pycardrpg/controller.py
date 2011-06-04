@@ -5,12 +5,49 @@ from pygame.locals import *
 
 from pycardrpg.engine.entity_system import entity_system
 from pycardrpg.engine.event_system import event_system, inject_user_event
-from pycardrpg.engine.script_system import script_system, Script
+from pycardrpg.model.component import TargetComponent
 
 from pycardrpg.command import mapping
 
 #
-# Move Controller, handle player movement
+# SimulationController
+# handle the world simulation
+#
+
+class SimulationController(object):
+    
+    def __init__(self, map):
+        self.map = map
+        
+        event_system.on(self.on_end_turn, USEREVENT, 'end_turn')
+    
+    def on_end_turn(self, data):
+        # check for killed npcs
+        for npc in entity_system.find("NpcComponent"):
+            if npc.get("UnitComponent", 'cur_hp') > 0:
+                continue
+            
+            print "Killed: %s" % npc
+            entity_system.remove(npc)
+        
+        # recharge any npc hitpoints
+        for npc in entity_system.find("NpcComponent"):
+            npc.get_component("UnitComponent").do_hp_recharge()
+        
+        # TODO: Run the AI
+        
+        # send an event on player death
+        player = entity_system.find_one("PlayerComponent")
+        if player.get("UnitComponent", 'cur_hp') < 0:
+            inject_user_event('player_killed')
+        
+        # recharge the player's heath
+        player = entity_system.find_one("PlayerComponent")
+        player.get_component("UnitComponent").do_hp_recharge()
+
+#
+# MoveController
+# handle player movement
 #
 
 class MoveController(object):
@@ -65,10 +102,43 @@ class MoveController(object):
         self.map.get_fov_tiles(pos, fov_radius).seen = True
 
 #
-# Action Card Controller, handle using action cards
+# TargetController
+# handle the selecting of entities
+# 
+
+class TargetController(object):
+    
+    def __init__(self, map):
+        self.map = map
+        
+        event_system.on(self.on_select_target, USEREVENT, 'select_target')
+        event_system.on(self.on_remove_target, USEREVENT, 'remove_target')
+        
+    def on_remove_target(self, data):
+        self._remove_old_target()
+        
+    def on_select_target(self, data):
+        target = data.get('target', None)
+        if target is None:
+            return
+
+        self._remove_old_target()
+
+        # add the target component to the target entity
+        target.add_component(TargetComponent())
+        inject_user_event('map_changed')
+        
+    def _remove_old_target(self):
+        entity = entity_system.find_one('TargetComponent')
+        
+        if entity is not None:
+            entity.remove_component('TargetComponent')
+
+#
+# ActionCardController
+# handle using action cards
 #
 
-# TODO: handle reentry into on_action_card
 class ActionCardController(object):
 
     def __init__(self, map):
@@ -76,40 +146,6 @@ class ActionCardController(object):
         event_system.on(self.on_action_card, USEREVENT, 'action_card')
 
     def on_action_card(self, data):
-        # stop the current event handlers from firing, by pushing a new
-        # set into the event handler
-        event_system.push()
-        
-        deck = self._get_player_deck()
-        card = deck.hand[data['card_num']]
-        deck.discard(card)
-                
-        # setup the script
-        memory = self._get_default_memory()
-        script = Script(memory=memory)
-        for name, kwargs in card.commands.items():
-            if kwargs is None:
-                kwargs = {}
-            
-            command = mapping[name](**kwargs)
-            script.append(command)
-        
-        # put the script in to be executed
-        script_system.add('action_cards', script, self.on_script_done)
-        
-    def on_script_done(self, script):        
-        # bring back the original event handlers
-        event_system.pop()
-        inject_user_event('map_changed')
-        inject_user_event('end_turn')
+        pass
 
-    def _get_player_deck(self):
-        return entity_system.find_one("PlayerComponent").get('UnitComponent', 'deck')
         
-    def _get_default_memory(self):
-        memory = {
-            'source': entity_system.find_one("PlayerComponent"),
-            'map': self.map
-        }
-        
-        return memory

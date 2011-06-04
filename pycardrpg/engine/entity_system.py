@@ -27,12 +27,18 @@ class EntitySystem(object):
 
     # find an entity based on a set of criteria
     def find(self, component, conditions={}):
+        if component not in self.components.keys():
+            return None
+        
         result = self.components[component].keys()
         result = self._filter_by_conditions(result, conditions)
         return result
         
     def find_one(self, component, conditions={}):
         result = self.find(component, conditions)
+        
+        if result is None:
+            return None
         
         if result == []:
             return None
@@ -49,6 +55,21 @@ class EntitySystem(object):
             self.components[component_name] = {}
         
         self.components[component_name][entity] = component
+        
+    # remove a component from an entity
+    def remove_component(self, entity, component_name):
+        if component_name not in self.components.keys():
+            return
+            
+        if entity in self.components[component_name]:
+            del self.components[component_name][entity]
+            
+    # does the entity have a component
+    def has_component(self, entity, component_name):
+        if component_name not in self.components.keys():
+            return False
+            
+        return entity in self.components[component_name]
 
     # return all the components on an entity
     def get_components(self, entity):
@@ -95,6 +116,18 @@ class Entity(object):
     def add_component(self, component):
         self.entity_system.add_component(self, component)
 
+    # remove a component from this entity
+    def remove_component(self, component):
+        self.entity_system.remove_component(self, component)
+        
+    # get a componet for this entity
+    def get_component(self, component_name):
+        return self.entity_system.get_component(self, component_name)
+        
+    # does this entity have a component
+    def has_component(self, component):
+        return self.get_component(component) is not None
+
     # get a property from a component
     def get(self, component, name):
         component = self.get_component(component)
@@ -104,10 +137,6 @@ class Entity(object):
     def set(self, component, name, value):
         component = self.get_component(component)
         setattr(component, name, value)
-
-    # get a componet for this entity
-    def get_component(self, component_name):
-        return self.entity_system.get_component(self, component_name)
         
     def __repr__(self):
         strings = ", ".join([str(item) for item in self.entity_system.get_components(self)])
