@@ -68,6 +68,10 @@ class MapGenerator():
         
         deck = player.get("UnitComponent", 'deck')
         deck.add_card(card_repository.get_action_card('Attack'))
+        deck.add_card(card_repository.get_action_card('Attack'))
+        deck.add_card(card_repository.get_action_card('Attack'))
+        deck.add_card(card_repository.get_action_card('Attack'))
+        deck.add_card(card_repository.get_action_card('Attack'))
         deck.fill_hand()
 
 #

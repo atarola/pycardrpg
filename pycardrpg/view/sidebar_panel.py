@@ -3,6 +3,7 @@
 import pygame
 from pygame.locals import *
 
+from pycardrpg.engine.entity_system import entity_system
 from pycardrpg.engine.event_system import inject_user_event
 from pycardrpg.engine.ui import Panel, Button
 
@@ -17,24 +18,22 @@ class SidebarPanel(Panel):
         self.rect.midright = (width - 10, height / 2)
         
     def do_update(self):
-        pos = (self.rect.left, self.rect.top)
-        size = (230, 45)
-        
+        # setup the widgets
         do_button = Button()
-        do_button.text_offset = 16
         
-        if do_button(self, 1, (10, 125), size, 'one'):
-            inject_user_event('action_card', card_num=0)
+        # render the card buttons
+        
+        ctr = 0
+        deck = self._get_player_deck()
+        
+        for card in deck.hand:
+            top = 125 + (30 * ctr)
+            id = "card_button_%s" % ctr
+            
+            if do_button(self, id, (10, top), (230, 22), card.name):
+                inject_user_event('action_card', card_num=ctr)
+            
+            ctr += 1
 
-        if do_button(self, 2, (10, 175), size, 'two'):
-            inject_user_event('action_card', card_num=1)
-
-        if do_button(self, 3, (10, 225), size, 'three'):
-            inject_user_event('action_card', card_num=2)
-
-        if do_button(self, 4, (10, 275), size, 'four'):
-            inject_user_event('action_card', card_num=3)
-
-        if do_button(self, 5, (10, 325), size, 'five'):
-            inject_user_event('action_card', card_num=4)
-
+    def _get_player_deck(self):
+        return entity_system.find_one("PlayerComponent").get('UnitComponent', 'deck')

@@ -151,7 +151,6 @@ class Widget(object):
     
     def draw_string(self, ui, pos, string):
         x, y = pos
-        
         for char in string:
             self.draw_character(ui, (x, y), char)
             x += 16
@@ -186,7 +185,6 @@ class Button(Widget):
         return self.is_clicked(ui, id)
     
     # render the button
-    # TODO: Handle Text
     def draw(self, ui, id, pos, size, text):
         # draw the shadow
         shadow_pos = self.translate_pos(pos, self.shadow_offset, self.shadow_offset)
