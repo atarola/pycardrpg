@@ -43,6 +43,12 @@ actions:
   - name: Attack
     tags: ["Action", "Attack"]
     commands:
-        DamageCommand:
+        AttackCommand:
             range: 1
+            
+  - name: DoubleTap
+    tags: ["Action", "Magic"]
+    commands:
+        AddActionCommand:
+            count: 2
 

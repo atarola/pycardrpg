@@ -19,10 +19,11 @@ class Command(object):
         pass
 
 #
-# DamageCommand
+# AttackCommand
+# Do damage from the Source to the Target
 #
 
-class DamageCommand(Command):
+class AttackCommand(Command):
     
     def __init__(self, **data):
         Command.__init__(self)
@@ -62,12 +63,39 @@ class DamageCommand(Command):
             self.target.set('UnitComponent', 'cur_hp', hp - damage)
 
         hp = self.target.get('UnitComponent', 'cur_hp')
-        print "DamageCommand[damage: %s, hp left: %s]" % (damage, hp)
+        
+    def __repr__(self):
+        return "AttackCommand[source: %s, target: %s]" % (self.source, self.target)
+
+#
+# AddActionCommand
+# Give the player an extra action
+#
+
+class AddActionCommand(Command):
+    
+    def __init__(self, **data):
+        Command.__init__(self)
+        self.controller = data.get('controller', None)
+        self.count = data.get('count', None)
+    
+    def is_valid(self):
+        valid = True
+        valid = valid and self.controller is not None
+        valid = valid and self.count is not None
+        return valid
+        
+    def execute(self):
+        self.controller.actions += self.count
+        
+    def __repr__(self):
+        return "AddActionCommand[count: %s]" % self.count
 
 #
 # used to reference the commands by a string name
 #
 
 command_mapping = {
-    'DamageCommand': DamageCommand
+    'AttackCommand': AttackCommand,
+    'AddActionCommand': AddActionCommand
 }

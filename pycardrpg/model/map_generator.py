@@ -49,7 +49,7 @@ class MapGenerator():
         return level_map
 
     def _create_enemies(self, level_map):
-        pos = (9, 11)
+        pos = (4, 2)
         enemy = unit_repository.create_from_template("Skeleton")
         enemy.set("RenderComponent", "pos", pos)
 
@@ -67,7 +67,7 @@ class MapGenerator():
         level_map.get_fov_tiles(pos, fov_radius).seen = True
         
         deck = player.get("UnitComponent", 'deck')
-        deck.add_card(card_repository.get_action_card('Attack'))
+        deck.add_card(card_repository.get_action_card('DoubleTap'))
         deck.add_card(card_repository.get_action_card('Attack'))
         deck.add_card(card_repository.get_action_card('Attack'))
         deck.add_card(card_repository.get_action_card('Attack'))

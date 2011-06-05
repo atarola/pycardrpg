@@ -66,6 +66,7 @@ class Controller(object):
         
         # execute the card 
         for command in commands:
+            print "Command: %s" % command
             command.execute()
     
         # discard the card
