@@ -81,8 +81,8 @@ class LevelMap(object):
         positions = self.fov.do_fov(pos, radius)
         return TileList([self.get(foo) for foo in positions])
     
-    def in_distance(self, source, target, radius):
-        positions = self.fov.do_fov(source, radius)
+    def in_view_distance(self, source, target, range):
+        positions = self.fov.do_fov(source, range + 1)
         return target in positions
     
     def __iter__(self):

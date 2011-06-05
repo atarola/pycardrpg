@@ -38,7 +38,8 @@ class LayerTypes(object):
     UI_LAYER = LayerType(3)
 
 #
-# Sprite Sheet Handler.  Cuts up and caches sprite sheet elements.
+# Sprite Sheet Handler.  
+# Cuts up and caches sprite sheet elements.
 #
 
 class SpriteSheet(list):

@@ -40,9 +40,30 @@ class MapSprite(Sprite):
         
         event_system.on(self.on_map_changed, USEREVENT, 'map_changed')
         event_system.on(self.on_mouse_up, MOUSEBUTTONUP)
-        
+        event_system.on(self.on_keyup, KEYUP)
+
+    # move the character on keyup
+    def on_keyup(self, data):
+        key = data.get('key', 0)
+
+        if key in [K_UP, K_w]:
+            inject_user_event('move_player', delta=(0, -1))
+
+        if key in [K_DOWN, K_s]:
+            inject_user_event('move_player', delta=(0, 1))
+
+        if key in [K_LEFT, K_a]:
+            inject_user_event('move_player', delta=(-1, 0))
+
+        if key in [K_RIGHT, K_d]:
+            inject_user_event('move_player', delta=(1, 0))
+
     # If we are the sprite under the cursor, do some work.
     def on_mouse_up(self, data):
+        sprite = data.get('sprite', None)
+        if sprite is not self:
+            return
+        
         pos = data.get('pos', None)
         array_pos = self.camera.to_array(pos)
         

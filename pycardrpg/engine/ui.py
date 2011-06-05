@@ -156,6 +156,11 @@ class Widget(object):
             x += 16
     
     def draw_character(self, ui, pos, char):
+        char = char.upper()
+        
+        if char not in Widget.CHARACTERS:
+            return
+        
         index = Widget.CHARACTERS.index(char.upper())
         img = ui.font[index]
         ui.image.blit(img, pos)
@@ -163,6 +168,42 @@ class Widget(object):
     def translate_pos(self, pos, x, y):
         a, b = pos
         return (a + x, b + y)
+
+#
+# Label
+# Label Widget, shows some text
+#
+
+class Label(Widget):
+    
+    def __call__(self, ui, pos, text):
+        self.draw_string(ui, pos, text)
+        
+#
+# ProgressBar
+# ProgresBar Widget, shows a percentage 
+#
+
+class ProgressBar(Widget):
+    
+    def __init__(self):
+        self.background_color = pygame.Color("#333333ff")
+        self.border_color = pygame.Color("#666666ff")
+        self.progress_color = pygame.Color("#ccccccff")
+        self.border_size = 1
+    
+    def __call__(self, ui, pos, size, percent):
+        # draw the border
+        self.draw_rect(ui, pos, size, self.border_color)
+        
+        # draw the background
+        delta = -(self.border_size * 2)
+        rect = pygame.Rect(pos, size).inflate(delta, delta)
+        self.draw_rect(ui, rect.topleft, rect.size, self.background_color)
+        
+        # draw the progress
+        rect.width = size[0] * percent
+        self.draw_rect(ui, rect.topleft, rect.size, self.progress_color)
 
 #
 # Button

@@ -24,7 +24,7 @@ class UnitComponent(object):
         self.skills = SlotHolder(["Skill"])
         
         self.deck = Deck()
-        
+
         # current hit points and action points
         self.cur_hp = self.max_hp
     
@@ -86,11 +86,11 @@ class UnitComponent(object):
 
     @property
     def max_hp(self):
-        return self.hp_recharge * 10
+        return (self.strength + self.stamina) * 10
     
     @property
     def hp_recharge(self):
-        return self.strength + self.stamina
+        return (self.strength + self.stamina) * 1.0 / 15
 
     @property
     def attack(self):

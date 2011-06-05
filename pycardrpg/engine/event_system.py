@@ -3,7 +3,7 @@
 from weakref import WeakValueDictionary
 
 import pygame
-from pygame import USEREVENT
+from pygame.locals import * 
 from pygame.event import Event
 
 #

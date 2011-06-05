@@ -18,41 +18,22 @@ From the base attributes, some others are derived:
 * Hit Points (HP): The amount of damage a unit can withstand before death.
 * Action Points (AP): Points spent in the executing of actions.  
 
-h3. Experience Points
-
-Units are awarded Experience Points for defeating enemies and completing tasks that move them closer to their goal.  These Experience Points can be spent either on better Attributes or better Skills.
-
 h3. Equipment Cards
 
-All units in the game, characters and enemies both, have a set of slots that Equipment Cards can be added too.  These cards, along with the unit's base Attributes, set the basic statistics for the unit, while adding to the pool of Action Cards for use in the Action Deck.  
-
-Each Equipment Card has specific Attribute and Skill requirements to use.
 
 h3. Skill Cards
 
-Skills are task specific aptitudes a unit has, which grant additional Action Cards to the unit's pool.  Each Skill has 5 levels, each one having a greater cost, but better modifiers and Action Cards.  The maximum number of different skills a unit can have is equal to the unit's intelligence.
-
-Each Skill has specific Attribute requirements to learn, and the requirements grow as the unit gets better at that skill.  
 
 h3. Action Cards
 
-Each unit will have an Action Deck.  An Action Deck is exactly 40 Action Cards in size.  The maximum number of a single Action Card that can be in a deck is 4, except for _Attack_ Action Card which can be used in an unlimited fashion.  
-
-Each Action Card cost a specific number of Action Points (AP) to play. Action Points accumulate at the rate of 1/10 of the maximum AP per turn.
-
-A unit has 5 Action Cards in its' hand, of which they can play one each turn. Once that card is played, it is added to the Discard Pile.  If, at the end of a turn, the unit's hand is less than 5, another card is added to the hand from the unused Action Deck.  
-
-When the Action Deck is empty, the cards in the Discard Pile are shuffled and put into the Action Deck.
 
 h2. TODO
 
 * Implement logging system.  With all the async stuff flying around, we'll need it to help get a handle on bugs.
-* Implement showing which command cards are in the players hand.
-* Add way to provide feedback to the user inside commands.
-* Add verifier to end of update loop, which should handle events like unit death.
 * Remove attributes from units, focus on the cards.
 * Map Generation
 * AI
+* Proper UI Themeing
 
 h2. Special Thanks
 

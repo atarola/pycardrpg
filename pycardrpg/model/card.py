@@ -40,19 +40,17 @@ class Deck(object):
     def discard(self, card):
         self.hand.remove(card)
         self.pile.append(card)
-        self.fill_hand()
 
     def shuffle(self):
         random.shuffle(self.cards)
 
     def reset_deck(self):
-        inject_user_event('deck_changed')
         self.cards.extend(self.pile)
         self.pile = []
         self.shuffle()
+        inject_user_event('deck_changed')
 
     def fill_hand(self):
-        inject_user_event('deck_changed')
         while len(self.hand) < self.hand_size:
             # if there are no cards in the good, reset
             if len(self.cards) == 0:
@@ -64,6 +62,8 @@ class Deck(object):
             else:
                 break
 
+        inject_user_event('deck_changed')
+        
 #
 # A slot with tags.  For a card to fit into a slot it must have
 # at least all the tags of the slot.

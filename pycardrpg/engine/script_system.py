@@ -85,6 +85,24 @@ class ScriptEvent(object):
 
     def update(self, memory):
         pass
+        
+#
+# CountdownEvent
+# blocks the script for a certain count of frames
+#
+
+class CountdownEvent(ScriptEvent):
+    
+    def __init__(self, count, command=False, callback=None):
+        ScriptEvent.__init__(self, command, callback)
+        self.count = count
+        
+    def update(self, memory):
+        if self.count > 0:
+            self.count -= 1
+            return
+        
+        self.callback(self)
 
 #
 # Script System singleton

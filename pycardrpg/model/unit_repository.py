@@ -32,6 +32,9 @@ class UnitRepository(object):
         slots = template.get("slots", {})
         self._setup_slots(entity, slots)
         
+        max_hp = entity.get('UnitComponent', 'max_hp')
+        entity.set('UnitComponent', 'cur_hp', max_hp)
+        
         return entity
 
     def _setup_components(self, entity, components):

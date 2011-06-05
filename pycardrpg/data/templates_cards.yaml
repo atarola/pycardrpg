@@ -43,8 +43,6 @@ actions:
   - name: Attack
     tags: ["Action", "Attack"]
     commands:
-        VerifyTargetCommand:
-            distance: 1
         DamageCommand:
-            ~
+            range: 1
 
