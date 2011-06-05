@@ -28,7 +28,7 @@ class EntitySystem(object):
     # find an entity based on a set of criteria
     def find(self, component, conditions={}):
         if component not in self.components.keys():
-            return None
+            return []
         
         result = self.components[component].keys()
         result = self._filter_by_conditions(result, conditions)
@@ -36,9 +36,6 @@ class EntitySystem(object):
         
     def find_one(self, component, conditions={}):
         result = self.find(component, conditions)
-        
-        if result is None:
-            return None
         
         if result == []:
             return None

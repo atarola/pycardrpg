@@ -25,14 +25,14 @@ class MapGenerator():
         # add floor
         level_map.get_area(2, 2, 6, 1).type = TileTypes.FLOOR
         level_map.get_area(3, 3, 4, 1).type = TileTypes.FLOOR
-        level_map[5, 4].type = TileTypes.FLOOR
-        level_map[5, 5].type = TileTypes.FLOOR
+        level_map.get((5, 4)).type = TileTypes.FLOOR
+        level_map.get((5, 5)).type = TileTypes.FLOOR
         level_map.get_area(5, 6, 9, 1).type = TileTypes.FLOOR
-        level_map[13, 7].type = TileTypes.FLOOR
+        level_map.get((13, 7)).type = TileTypes.FLOOR
         level_map.get_area(4, 8, 10, 6).type = TileTypes.FLOOR
         level_map.get_area(7, 8, 3, 1).type = TileTypes.CEILING
-        level_map[7, 11].type = TileTypes.CEILING
-        level_map[11, 11].type = TileTypes.CEILING
+        level_map.get((7, 11)).type = TileTypes.CEILING
+        level_map.get((11, 11)).type = TileTypes.CEILING
         
         # add walls
         level_map.get_area(2, 1, 6, 1).type = TileTypes.WALL
@@ -40,8 +40,8 @@ class MapGenerator():
         level_map.get_area(4, 8, 3, 1).type = TileTypes.WALL
         level_map.get_area(7, 9, 3, 1).type = TileTypes.WALL
         level_map.get_area(10, 8, 3, 1).type = TileTypes.WALL
-        level_map[7, 12].type = TileTypes.WALL
-        level_map[11, 12].type = TileTypes.WALL
+        level_map.get((7, 12)).type = TileTypes.WALL
+        level_map.get((11, 12)).type = TileTypes.WALL
         
         self._select_tiles(level_map)
         self._create_enemies(level_map)
@@ -68,8 +68,6 @@ class MapGenerator():
         
         deck = player.get("UnitComponent", 'deck')
         deck.add_card(card_repository.get_action_card('DoubleTap'))
-        deck.add_card(card_repository.get_action_card('Attack'))
-        deck.add_card(card_repository.get_action_card('Attack'))
         deck.add_card(card_repository.get_action_card('Attack'))
         deck.add_card(card_repository.get_action_card('Attack'))
         deck.fill_hand()
@@ -107,7 +105,7 @@ class TilePicker(object):
     def _get_tiles(self, pos):
         x, y = pos
         deltas = [(-1, -1), (0, -1), (1, -1), (-1, 0), (0, 0), (1, 0), (-1, 1), (0, 1), (1, 1)]
-        return [self.map[x + dx, y + dy] for dx, dy in deltas]
+        return [self.map.get((x + dx, y + dy)) for dx, dy in deltas]
 
 #
 # Contains a tile rule and the proper result

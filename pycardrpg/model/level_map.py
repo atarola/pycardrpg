@@ -65,14 +65,21 @@ class LevelMap(object):
         self.tiles = [[TileInstance(default, (x, y)) for x in xrange(width)] for y in xrange(height)] 
         
     def get(self, pos):
+        x, y = pos 
+        
         if self.rect.collidepoint(pos):
-            x, y = pos 
             return self.tiles[y][x]
         else:
-            return TileInstance(self.default, pos)
+            return TileInstance(self.default, (x, y))
         
     def get_area(self, x, y, width, height):
-        return self[y:y + height, x:x + width]
+        output = TileList()
+
+        for i in range(x, x + width, 1):
+            for j in range(y, y + height, 1):
+                output.append(self.get((i, j)))
+        
+        return output
     
     def get_fov(self, pos, radius):
         return self.fov.do_fov(pos, radius)
@@ -96,42 +103,6 @@ class LevelMap(object):
                 return True
         
         return False
-    
-    def __getitem__(self, pos):
-        # handle pygame Rect
-        if isinstance(pos, pygame.Rect):
-            x_args = [pos.left, pos.right, 1]
-            y_args = [pos.top, pos.bottom, 1]
-            return self._get_tiles_for_lists(x_args, y_args)
-        
-        # handle slices
-        if isinstance(pos[0], slice) or isinstance(pos[1], slice):
-            x_args = self._convert_to_xlist_args(pos[0], self.rect.width)
-            y_args = self._convert_to_xlist_args(pos[1], self.rect.height)
-            return self._get_tiles_for_lists(x_args, y_args)
-
-        # handle tuples
-        if isinstance(pos, tuple):
-            return self.get(pos)
-        
-        raise "array access type unknown"
-
-    def _convert_to_xlist_args(self, item, length):
-        if isinstance(item, slice):
-            return item.indices(length)
-        else:
-            return item
-        
-    def _get_tiles_for_lists(self, x, y):
-        output = TileList()
-        
-        for i in xrange(*y):
-            for j in xrange(*x):
-                tile = self.get((i, j))
-                if tile is not None:
-                    output.append(tile)
-        
-        return output
 
 #
 # Tile List.  
@@ -140,16 +111,16 @@ class LevelMap(object):
 class TileList(list):
     
     # Modify a property on each item in the list at once
-    def __setattr__(self, property, value):
-        if hasattr(self, property):
-            self.__dict__[property] = value 
+    def __setattr__(self, name, value):
+        if hasattr(self, name):
+            self.__dict__[name] = value 
             return
             
         for item in self:
-            setattr(item, property, value)
+            setattr(item, name, value)
 
-    def filter(self, property, value):
-        return TileList([item for item in self if getattr(item, property) == value])        
+    def filter(self, name, value):
+        return TileList([item for item in self if getattr(item, name) == value])        
 
 #
 # Get the tiles within a radius that the unit can see.
@@ -230,7 +201,7 @@ class FovUtil(object):
                 break
 
     def _is_blocked(self, pos):
-        return self.map[pos].opaque
+        return self.map.get(pos).opaque
 
     def _set_lit(self, pos):
         self.lit_positions.append(pos)

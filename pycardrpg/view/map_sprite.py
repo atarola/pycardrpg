@@ -86,7 +86,8 @@ class MapSprite(Sprite):
         self.camera.move((pos[0] + 5, pos[1]))
 
         # render the tiles
-        tiles = self.map[self.camera.rect].filter("seen", True)
+        rect = self.camera.rect
+        tiles = self.map.get_area(rect.left, rect.top, rect.width, rect.height).filter("seen", True)    
         tiles_fov = self.map.get_fov_tiles(pos, fov_radius)
         for tile in tiles:
             visible = tile in tiles_fov
@@ -95,7 +96,7 @@ class MapSprite(Sprite):
         # render the npcs
         npcs = entity_system.find("NpcComponent")
         for npc in npcs: 
-            tile = self.map[npc.get("RenderComponent", "pos")]         
+            tile = self.map.get(npc.get("RenderComponent", "pos"))         
             if tile in tiles_fov:
                 self._render_unit(self.image, npc)
 
@@ -168,4 +169,7 @@ class Camera(object):
         ty = abs(y - self.rect.top) * b
 
         return (tx, ty) 
+    
+    def __repr__(self):
+        return "Camera[center: %s, topleft: %s, bottomright: %s]" % (self.rect.center, self.rect.topleft, self.rect.bottomright)
 

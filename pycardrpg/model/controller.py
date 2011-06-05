@@ -102,7 +102,7 @@ class Controller(object):
         pos = (x + dx, y + dy)
     
         # if the new spot isn't passible, ignore the command
-        if not self.map[pos].passible:
+        if not self.map.get(pos).passible:
             return
 
         # if the new spot is occupied, ignore the command
@@ -112,8 +112,7 @@ class Controller(object):
 
         player.set("RenderComponent", "pos", pos)
         fov_radius = player.get('UnitComponent', 'fov_radius')
-        self.map.get_fov_tiles(pos, fov_radius).seen = True
-        
+        self.map.get_fov_tiles(pos, fov_radius).seen = True        
         inject_user_event('end_turn')
         
     def on_end_turn(self, data):
