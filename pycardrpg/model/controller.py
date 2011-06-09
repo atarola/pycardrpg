@@ -96,6 +96,7 @@ class Controller(object):
         if delta is None:
             return
         
+        # get the requested position
         player = entity_system.find_one("PlayerComponent")
         x, y = player.get("RenderComponent", "pos")
         dx, dy = delta

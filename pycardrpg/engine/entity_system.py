@@ -2,6 +2,7 @@
 
 #
 # EntitySystem class.  Create and manage entities and components
+# For more information, see: http://cowboyprogramming.com/2007/01/05/evolve-your-heirachy
 #
 
 class EntitySystem(object):

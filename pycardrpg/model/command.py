@@ -61,8 +61,6 @@ class AttackCommand(Command):
         if damage > 0:
             hp = self.target.get('UnitComponent', 'cur_hp')
             self.target.set('UnitComponent', 'cur_hp', hp - damage)
-
-        hp = self.target.get('UnitComponent', 'cur_hp')
         
     def __repr__(self):
         return "AttackCommand[source: %s, target: %s]" % (self.source, self.target)

@@ -187,9 +187,9 @@ class Label(Widget):
 class ProgressBar(Widget):
     
     def __init__(self):
-        self.background_color = pygame.Color("#333333ff")
+        self.background_color = pygame.Color("#000000ff")
         self.border_color = pygame.Color("#666666ff")
-        self.progress_color = pygame.Color("#ccccccff")
+        self.progress_color = pygame.Color("#330000ff")
         self.border_size = 1
     
     def __call__(self, ui, pos, size, percent):
@@ -202,7 +202,7 @@ class ProgressBar(Widget):
         self.draw_rect(ui, rect.topleft, rect.size, self.background_color)
         
         # draw the progress
-        rect.width = size[0] * percent
+        rect.width = size[0] * percent + delta 
         self.draw_rect(ui, rect.topleft, rect.size, self.progress_color)
 
 #
@@ -213,8 +213,8 @@ class ProgressBar(Widget):
 class Button(Widget):
     
     def __init__(self):
-        self.button_color = pygame.Color("#aaaaaaff")
-        self.hot_color = pygame.Color("#ccccccff")
+        self.button_color = pygame.Color("#666666ff")
+        self.hot_color = pygame.Color("#999999ff")
         self.shadow_color = pygame.Color("#111111ff")
         self.shadow_offset = 2
         self.active_offset = 2

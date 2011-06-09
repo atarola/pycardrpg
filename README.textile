@@ -18,15 +18,6 @@ From the base attributes, some others are derived:
 * Hit Points (HP): The amount of damage a unit can withstand before death.
 * Action Points (AP): Points spent in the executing of actions.  
 
-h3. Equipment Cards
-
-
-h3. Skill Cards
-
-
-h3. Action Cards
-
-
 h2. TODO
 
 * Implement logging system.  With all the async stuff flying around, we'll need it to help get a handle on bugs.
