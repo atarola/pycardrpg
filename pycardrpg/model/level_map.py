@@ -71,7 +71,10 @@ class LevelMap(object):
             return self.tiles[y][x]
         else:
             return TileInstance(self.default, (x, y))
-        
+    
+    def get_rect(self, rect):
+        return self.get_area(rect.x, rect.y, rect.width, rect.height)
+    
     def get_area(self, x, y, width, height):
         output = TileList()
 
@@ -121,6 +124,9 @@ class TileList(list):
 
     def filter(self, name, value):
         return TileList([item for item in self if getattr(item, name) == value])        
+        
+    def count(self, name, value):
+        return len([item for item in self if getattr(item, name) == value])
 
 #
 # Get the tiles within a radius that the unit can see.

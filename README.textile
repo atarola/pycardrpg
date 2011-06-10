@@ -24,8 +24,7 @@ h2. TODO
 * Remove attributes from units, focus on the cards.
 * Map Generation
 * AI
-* Proper UI Themeing
-* Deck Management
+* NPC Decks
 
 h2. Special Thanks
 

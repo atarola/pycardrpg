@@ -2,8 +2,9 @@
 
 import os
 import yaml
+import random
 
-
+import pygame
 
 from pycardrpg.model.level_map import LevelMap, TileTypes
 from pycardrpg.model.unit_repository import unit_repository
@@ -17,41 +18,85 @@ from pycardrpg.model.card import card_repository
 class MapGenerator():
 
     def generate(self):
-        level_map = LevelMap(16, 16)
+        level_map = LevelMap(100, 100)
         
-        # fill map with ceiling
-        level_map.get_area(0, 0, 16, 16).type = TileTypes.CEILING
+        # x = random.randint(1, 90)
+        # y = random.randint(1, 90)
+        # w = random.randint(1, 10)
+        # h = random.randint(2, 10)
+        # 
+        # room = Room(x, y, w, h)
         
-        # add floor
-        level_map.get_area(2, 2, 6, 1).type = TileTypes.FLOOR
-        level_map.get_area(3, 3, 4, 1).type = TileTypes.FLOOR
-        level_map.get((5, 4)).type = TileTypes.FLOOR
-        level_map.get((5, 5)).type = TileTypes.FLOOR
-        level_map.get_area(5, 6, 9, 1).type = TileTypes.FLOOR
-        level_map.get((13, 7)).type = TileTypes.FLOOR
-        level_map.get_area(4, 8, 10, 6).type = TileTypes.FLOOR
-        level_map.get_area(7, 8, 3, 1).type = TileTypes.CEILING
-        level_map.get((7, 11)).type = TileTypes.CEILING
-        level_map.get((11, 11)).type = TileTypes.CEILING
+        room = Room(50, 50, 10, 10)
+        room.create(level_map)
+        rooms = [room]
         
-        # add walls
-        level_map.get_area(2, 1, 6, 1).type = TileTypes.WALL
-        level_map.get_area(6, 5, 8, 1).type = TileTypes.WALL
-        level_map.get_area(4, 8, 3, 1).type = TileTypes.WALL
-        level_map.get_area(7, 9, 3, 1).type = TileTypes.WALL
-        level_map.get_area(10, 8, 3, 1).type = TileTypes.WALL
-        level_map.get((7, 12)).type = TileTypes.WALL
-        level_map.get((11, 12)).type = TileTypes.WALL
+        num_rooms = random.randint(5, 30)
+        
+        while num_rooms > 0:
+            old_room = random.choice(rooms)
+            
+            w = random.randint(1, 10)
+            h = random.randint(2, 10)
+            
+            room = Room(w=w, h=h)
+            
+            direction = random.randint(0, 3)
+            
+            # north
+            if direction == 0:
+                door_x = random.randint(old_room.x, old_room.x + old_room.w - 1)
+                door_y = old_room.y - 1
+                room.rect.midbottom = (door_x, door_y)
+                
+            # east
+            if direction == 1:
+                door_x = old_room.x + old_room.w
+                door_y = random.randint(old_room.y + 1, old_room.y + old_room.h - 1)
+                room.rect.midleft = (door_x + 1, door_y)
+                
+            # south
+            if direction == 2:
+                door_x = random.randint(old_room.x, old_room.x + old_room.w - 1)
+                door_y = old_room.y + old_room.h
+                room.rect.midtop = (door_x, door_y + 1)
+                
+            # west
+            if direction == 3:
+                door_x = old_room.x - 1
+                door_y = random.randint(old_room.y + 1, old_room.y + old_room.h - 1)
+                room.rect.midright = (door_x, door_y)
+            
+            if room.verify(level_map):
+                room.create(level_map)
+                level_map.get((door_x, door_y)).type = TileTypes.FLOOR
+            
+                if direction == 0:
+                    level_map.get((door_x, door_y + 1)).type = TileTypes.FLOOR
+                
+                if direction == 1:
+                    level_map.get((door_x, door_y - 1)).type = TileTypes.WALL
+                
+                if direction == 2:
+                    level_map.get((door_x, door_y + 1)).type = TileTypes.FLOOR
+            
+                if direction == 3:
+                    level_map.get((door_x, door_y - 1)).type = TileTypes.WALL
+            
+                rooms.append(room)
+            
+                num_rooms -= 1
         
         self._select_tiles(level_map)
-        self._create_enemies(level_map)
+        # self._create_enemies(level_map)
         self._create_player(level_map)
+        
         return level_map
 
-    def _create_enemies(self, level_map):
-        pos = (4, 2)
-        enemy = unit_repository.create_from_template("Skeleton")
-        enemy.set("RenderComponent", "pos", pos)
+    # def _create_enemies(self, level_map):
+    #     pos = (4, 2)
+    #     enemy = unit_repository.create_from_template("Skeleton")
+    #     enemy.set("RenderComponent", "pos", pos)
 
     def _select_tiles(self, level_map):
         tile_picker = TilePicker(level_map)
@@ -60,7 +105,7 @@ class MapGenerator():
             tile.index = tile_picker.pick(tile)
     
     def _create_player(self, level_map):
-        pos = (2, 2)
+        pos = (52, 52)
         player = unit_repository.create_from_template("Player")
         player.set("RenderComponent", "pos", pos)
         fov_radius = player.get("UnitComponent", 'fov_radius')   
@@ -73,6 +118,39 @@ class MapGenerator():
         deck.add_card(card_repository.get_action_card('Attack'))
         deck.add_card(card_repository.get_action_card('Attack'))
         deck.fill_hand()
+
+#
+#
+#    
+
+class Room(object):
+    
+    def __init__(self, x=0, y=0, w=1, h=2):
+        self.rect = pygame.Rect(x, y, w, h)
+        
+    def verify(self, level_map):
+        tiles = level_map.get_rect(self.rect)
+        return len(tiles) == tiles.count('type', TileTypes.CEILING)
+        
+    def create(self, level_map):
+        level_map.get_rect(self.rect).type = TileTypes.FLOOR
+        level_map.get_area(self.rect.x, self.rect.y, self.rect.w, 1).type = TileTypes.WALL
+    
+    @property
+    def x(self):
+        return self.rect.x
+    
+    @property
+    def y(self):
+        return self.rect.y
+    
+    @property
+    def w(self):
+        return self.rect.width
+    
+    @property    
+    def h(self):
+        return self.rect.height
 
 #
 # Given a position, return the proper tile to put there.
