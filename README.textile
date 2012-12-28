@@ -20,7 +20,6 @@ From the base attributes, some others are derived:
 
 h2. TODO
 
-* Implement logging system.  With all the async stuff flying around, we'll need it to help get a handle on bugs.
 * Remove attributes from units, focus on the cards.
 * Map Generation
 * AI

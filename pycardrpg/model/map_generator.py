@@ -6,7 +6,7 @@ import random
 
 import pygame
 
-from pycardrpg.model.level_map import LevelMap, TileTypes
+from pycardrpg.model.quad_map import LevelMap, TileTypes, TileInstance
 from pycardrpg.model.unit_repository import unit_repository
 from pycardrpg.model.card import card_repository
 
@@ -14,143 +14,119 @@ from pycardrpg.model.card import card_repository
 # Map Generator
 #
 
-# TODO: properly
 class MapGenerator():
-
+    
+    MAP_WIDTH = 100
+    MAP_HEIGHT = 100
+    
+    ROOM_MAX_SIZE = 10
+    ROOM_MIN_SIZE = 6
+    MAX_ROOMS = 25
+    
     def generate(self):
-        level_map = LevelMap(100, 100)
+        level_map = LevelMap(self.MAP_WIDTH, self.MAP_HEIGHT)
         
-        # x = random.randint(1, 90)
-        # y = random.randint(1, 90)
-        # w = random.randint(1, 10)
-        # h = random.randint(2, 10)
-        # 
-        # room = Room(x, y, w, h)
-        
-        room = Room(50, 50, 10, 10)
-        room.create(level_map)
-        rooms = [room]
-        
-        num_rooms = random.randint(5, 30)
-        
-        while num_rooms > 0:
-            old_room = random.choice(rooms)
-            
-            w = random.randint(1, 10)
-            h = random.randint(2, 10)
-            
-            room = Room(w=w, h=h)
-            
-            direction = random.randint(0, 3)
-            
-            # north
-            if direction == 0:
-                door_x = random.randint(old_room.x, old_room.x + old_room.w - 1)
-                door_y = old_room.y - 1
-                room.rect.midbottom = (door_x, door_y)
-                
-            # east
-            if direction == 1:
-                door_x = old_room.x + old_room.w
-                door_y = random.randint(old_room.y + 1, old_room.y + old_room.h - 1)
-                room.rect.midleft = (door_x + 1, door_y)
-                
-            # south
-            if direction == 2:
-                door_x = random.randint(old_room.x, old_room.x + old_room.w - 1)
-                door_y = old_room.y + old_room.h
-                room.rect.midtop = (door_x, door_y + 1)
-                
-            # west
-            if direction == 3:
-                door_x = old_room.x - 1
-                door_y = random.randint(old_room.y + 1, old_room.y + old_room.h - 1)
-                room.rect.midright = (door_x, door_y)
-            
-            if room.verify(level_map):
-                room.create(level_map)
-                level_map.get((door_x, door_y)).type = TileTypes.FLOOR
-            
-                if direction == 0:
-                    level_map.get((door_x, door_y + 1)).type = TileTypes.FLOOR
-                
-                if direction == 1:
-                    level_map.get((door_x, door_y - 1)).type = TileTypes.WALL
-                
-                if direction == 2:
-                    level_map.get((door_x, door_y + 1)).type = TileTypes.FLOOR
-            
-                if direction == 3:
-                    level_map.get((door_x, door_y - 1)).type = TileTypes.WALL
-            
-                rooms.append(room)
-            
-                num_rooms -= 1
-        
-        self._select_tiles(level_map)
-        # self._create_enemies(level_map)
-        self._create_player(level_map)
+        rooms = self.create_rooms(level_map)
+        self.create_ceilings(level_map)
+        self.select_tiles(level_map)
+        self.create_enemies(level_map, rooms)
+        self.create_player(level_map, rooms[0].center)
         
         return level_map
+        
+    def create_rooms(self, level_map):
+        rooms = []
+        
+        # create our rooms
+        for r in range(self.MAX_ROOMS):
+            w = random.randrange(self.ROOM_MIN_SIZE, self.ROOM_MAX_SIZE)
+            h = random.randrange(self.ROOM_MIN_SIZE, self.ROOM_MAX_SIZE)
+            x = random.randrange(1, self.MAP_WIDTH - w - 1)
+            y = random.randrange(1, self.MAP_HEIGHT - h - 1)
+            
+            new_room = pygame.Rect(x, y, w, h)
+            failed = False
 
-    # def _create_enemies(self, level_map):
-    #     pos = (4, 2)
-    #     enemy = unit_repository.create_from_template("Skeleton")
-    #     enemy.set("RenderComponent", "pos", pos)
+            for room in rooms:
+                if room.colliderect(new_room):
+                    failed = True
+                    break
+            
+            if not failed:
+                self.create_room(level_map, new_room)
 
-    def _select_tiles(self, level_map):
+                if len(rooms) == 0:
+                    # set the player's position
+                    player_pos = new_room.center
+                else:
+                    # connect this room to the previous one
+                    new_x, new_y = new_room.center
+                    old_x, old_y = rooms[-1].center
+                
+                    if random.randrange(2) == 1:
+                        self.create_h_tunnel(level_map, old_x, new_x, old_y)
+                        self.create_v_tunnel(level_map, old_y, new_y, new_x)
+                    else:
+                        self.create_v_tunnel(level_map, old_y, new_y, old_x)
+                        self.create_h_tunnel(level_map, old_x, new_x, new_y)
+                
+                rooms.append(new_room)
+        
+        return rooms
+        
+    def create_ceilings(self, level_map):      
+        tiles = [tile for tile in level_map]                
+        deltas = [(-1, -1), (0, -1), (1, -1), (-1, 0), (0, 0), (1, 0), (-1, 1), (0, 1), (1, 1)]
+        
+        for tile in tiles:
+            x, y = tile.pos
+            
+            for dx, dy in deltas:
+                level_map.set_default((x + dx, y + dy))   
+    
+    # TODO: walls
+    def create_room(self, level_map, rect):
+        x1, y1 = rect.topleft
+        x2, y2 = rect.bottomright
+        
+        for x in range(x1, x2):
+            for y in range(y1, y2):
+                level_map.set_default((x, y)).type = TileTypes.FLOOR
+            
+    def create_h_tunnel(self, level_map, x1, x2, y):
+        for x in range(min(x1, x2), max(x1, x2) + 1):
+            level_map.set_default((x, y)).type = TileTypes.FLOOR
+            
+    def create_v_tunnel(self, level_map, y1, y2, x):
+        for y in range(min(y1, y2), max(y1, y2) + 1):
+            level_map.set_default((x, y)).type = TileTypes.FLOOR
+
+    def select_tiles(self, level_map):
         tile_picker = TilePicker(level_map)
         
         for tile in level_map:
             tile.index = tile_picker.pick(tile)
     
-    def _create_player(self, level_map):
-        pos = (52, 52)
+    def create_enemies(self, level_map, rooms):
+        pass
+    
+    def create_player(self, level_map, pos):        
+        # Create a new player and set their position
         player = unit_repository.create_from_template("Player")
         player.set("RenderComponent", "pos", pos)
-        fov_radius = player.get("UnitComponent", 'fov_radius')   
+        
+        # make sure any seen tiles are seen
+        fov_radius = player.get("UnitComponent", "fov_radius")
         level_map.get_fov_tiles(pos, fov_radius).seen = True
         
+        # create the player's deck
         deck = player.get("UnitComponent", 'deck')
-        deck.add_card(card_repository.get_action_card('DoubleTap'))
-        deck.add_card(card_repository.get_action_card('Attack'))
-        deck.add_card(card_repository.get_action_card('Attack'))
-        deck.add_card(card_repository.get_action_card('Attack'))
-        deck.add_card(card_repository.get_action_card('Attack'))
+        deck.add_card(card_repository.get_action_card("DoubleTap"))
+        deck.add_card(card_repository.get_action_card("Attack"))
+        deck.add_card(card_repository.get_action_card("Attack"))
+        deck.add_card(card_repository.get_action_card("Attack"))
+        deck.add_card(card_repository.get_action_card("Attack"))
         deck.fill_hand()
-
-#
-#
-#    
-
-class Room(object):
-    
-    def __init__(self, x=0, y=0, w=1, h=2):
-        self.rect = pygame.Rect(x, y, w, h)
-        
-    def verify(self, level_map):
-        tiles = level_map.get_rect(self.rect)
-        return len(tiles) == tiles.count('type', TileTypes.CEILING)
-        
-    def create(self, level_map):
-        level_map.get_rect(self.rect).type = TileTypes.FLOOR
-        level_map.get_area(self.rect.x, self.rect.y, self.rect.w, 1).type = TileTypes.WALL
-    
-    @property
-    def x(self):
-        return self.rect.x
-    
-    @property
-    def y(self):
-        return self.rect.y
-    
-    @property
-    def w(self):
-        return self.rect.width
-    
-    @property    
-    def h(self):
-        return self.rect.height
 
 #
 # Given a position, return the proper tile to put there.
@@ -185,7 +161,18 @@ class TilePicker(object):
     def _get_tiles(self, pos):
         x, y = pos
         deltas = [(-1, -1), (0, -1), (1, -1), (-1, 0), (0, 0), (1, 0), (-1, 1), (0, 1), (1, 1)]
-        return [self.map.get((x + dx, y + dy)) for dx, dy in deltas]
+        tiles = []
+        
+        for dx, dy in deltas:
+            new_pos = (x + dx, y + dy)
+            tile = self.map.get(new_pos)
+            
+            if tile is None:
+                tile = TileInstance(TileTypes.CEILING, new_pos)
+            
+            tiles.append(tile)
+        
+        return tiles
 
 #
 # Contains a tile rule and the proper result
@@ -204,7 +191,6 @@ class TileRule(object):
             elif rule == "*":
                 # any rule
                 self.rules.append(Any())
-                continue
             else:
                 # is rule
                 self.rules.append(Is(rule))

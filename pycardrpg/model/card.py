@@ -82,7 +82,7 @@ class Slot(object):
         if not self.card_fit(card):
             raise DoesNotFitException("Card does not fit into the slot")
 
-        self.card = card
+        self.card = card 
         
 #
 # Slot Holder

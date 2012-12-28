@@ -136,6 +136,10 @@ class PlayerComponent(object):
 
 class NpcComponent(object):
     
+    def __init__(self):
+        self.type = ""
+        self.status = ""
+    
     def __repr__(self):
         return 'NpcComponent'
         

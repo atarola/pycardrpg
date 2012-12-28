@@ -136,9 +136,7 @@ class Controller(object):
         # recharge any npc hitpoints
         for npc in entity_system.find("NpcComponent"):
             npc.get_component("UnitComponent").do_hp_recharge()
-        
-        # TODO: Run AI
-        
+                
         # send an event on player death
         player = entity_system.find_one("PlayerComponent")
         if player.get("UnitComponent", 'cur_hp') < 0:
